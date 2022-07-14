@@ -1,0 +1,20 @@
+[tool.black]
+line-length = 88
+target-version = ["py37"]
+
+[tool.isort]
+profile = "black"
+py_version = "37"
+
+[tool.coverage.run]
+parallel = true
+branch = true
+source = ["simple_history"]
+
+[tool.coverage.paths]
+source = ["simple_history", ".tox/*/site-packages"]
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = true
+omit = ["requirements/*"]

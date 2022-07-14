@@ -1,0 +1,7 @@
+[console_scripts]
+compile = compile:main
+
+[twine.registered_commands]
+register = twine.commands.register:main
+upload = twine.commands.upload:main
+
