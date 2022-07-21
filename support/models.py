@@ -27,5 +27,7 @@ class Support(models.Model):
 
     class Meta:
         verbose_name_plural = 'Tasks'
+        db_table = 'support'
+
     def __str__(self):
         return self.name

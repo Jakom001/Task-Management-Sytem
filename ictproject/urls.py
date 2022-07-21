@@ -21,15 +21,25 @@ from django.contrib.auth import views as auth_views
 from django.views.generic import TemplateView
 from decorator_include import decorator_include
 
+from support import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path("", TemplateView.as_view(template_name="main.html")),
+    path("", views.Homepage, name='homepage'),
     path('support/', include('support.urls')),
     path('support/', include('django.contrib.auth.urls')),
-    path('password_reset/done/', auth_views.PasswordResetDoneView.as_view(template_name='registration/password_reset_done.html'), name='password_reset_done'),
-    path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(template_name="registration/password_reset_confirm.html"), name='password_reset_confirm'),
-    path('reset/done/', auth_views.PasswordResetCompleteView.as_view(template_name='registration/password_reset_complete.html'), name='password_reset_complete'),
+    path('password_reset/done/',
+         auth_views.PasswordResetDoneView.as_view(template_name='registration/password_reset_done.html'),
+         name='password_reset_done'),
+    path('reset/<uidb64>/<token>/',
+         auth_views.PasswordResetConfirmView.as_view(template_name="registration/password_reset_confirm.html"),
+         name='password_reset_confirm'),
+    path('reset/done/',
+         auth_views.PasswordResetCompleteView.as_view(template_name='registration/password_reset_complete.html'),
+         name='password_reset_complete'),
+    path('delete/<str:id>', views.Delete, name='delete'),
+    path('update/<str:id>', views.Update, name='update'),
+
 ]
 
 if settings.DEBUG:

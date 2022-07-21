@@ -1,6 +1,108 @@
 {% extends "base.html" %}
 @login_required
 {% block main %}
-<h2>IT support</h2>
-<p><center> Welcome to IT Support Team</center></p>
+
+<body xmlns="http://www.w3.org/1999/html">
+    <div class="container">
+        <div class="table-wrapper">
+            <div class="table-title">
+                <div class="row">
+                    <div class="col-sm-6">
+						<h2>Task <b>Monitor</b></h2>
+					</div>
+                </div>
+            </div>
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+						<th>
+							<span class="custom-checkbox">
+								<input type="checkbox" id="selectAll">
+								<label for="selectAll"></label>
+							</span>
+						</th>
+                        <th>ID</th>
+                    <th>Name</th>
+                    <th>Date</th>
+                    <th>Extension</th>
+                    <th>Department</th>
+                    <th>Summary</th>
+                    <th>Category</th>
+                    <th>Assigned</th>
+                    <th>Solution</th>
+                    <th>Status</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+					{% for support in mytask %}
+                    <tr>
+						<td>
+							<span class="custom-checkbox">
+								<input type="checkbox" id="checkbox1" name="options[]" value="1">
+								<label for="checkbox1"></label>
+							</span>
+						</td>
+                         <td>{{ support.id }}</td>
+							 <td>{{ support.name }}</td>
+							 <td>{{ support.date_created }}</td>
+							 <td>{{ support.extension }}</td>
+							 <td>{{ support.department }}</td>
+							 <td>{{ support.summary }}</td>
+							 <td>{{ support.category }}</td>
+							 <td>{{ support.assigned }}</td>
+							 <td>{{ support.solution }}</td>
+							 <td>{{ support.status }}</td>
+
+                    </tr>
+
+				{% endfor %}
+                </tbody>
+            </table>
+			<br/></br>
+			<nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+
+            <li class="page-item {% if not mytask.has_previous %} disabled {% endif %}">
+                <a class="page-link" href="?page=1" tabindex="-1">FIRST</a>
+            </li>
+            <li class="page-item {% if not mytask.has_previous %} disabled {% endif %}">
+                <a class="page-link" href="{% if mytask.has_previous %}?page={{ mytask.previous_page_number }}{% endif %} " tabindex="-1">Previous</a>
+            </li>
+
+            {% if mytask.number|add:'-4' > 1 %}
+                <li class="page-item disabled"><a class="page-link" href="?page={{ mytask.number|add:'-5' }}">&hellip;</a></li>
+            {% endif %}
+
+            {% for i in mytask.paginator.page_range %}
+                {% if mytask.number == i %}
+                    <li class="active page-item disabled"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                {% elif i > mytask.number|add:'-5' and i < mytask.number|add:'5' %}
+                    <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                {% endif %}
+            {% endfor %}
+
+            {% if mytask.paginator.num_pages > mytask.number|add:'4' %}
+                <li class="page-item disabled"><a class="page-link" href="?page={{ mytask.number|add:'5' }}">&hellip;</a></li>
+            {% endif %}
+
+            <li class="page-item {% if not mytask.has_next %} disabled {% endif %}">
+                <a class="page-link" href="{% if mytask.has_next %} ?page={{ mytask.next_page_number }} {% endif %}">Next</a>
+            </li>
+            <li class="page-item {% if not mytask.has_next %} disabled {% endif %}">
+                <a class="page-link" href="{% if mytask.has_next %} ?page={{ mytask.paginator.num_pages }}  {% endif %}">LAST</a>
+            </li>
+        </ul>
+    </nav>
+<br/>
+
+
+			<div class="clearfix">
+                <div class="hint-text">Showing {{ mytask.start_index }}-{{ mytask.end_index }} out of <b>{{ mytask.paginator.count }}</b> entries</div>
+
+            </div>
+        </div>
+    </div>
+
+
 {% endblock %}

@@ -3,21 +3,13 @@ from .models import Support
 
 
 class SupportAdmin(admin.ModelAdmin):
-    list_display = ('name', 'date_created', 'category', 'summary', 'assigned', 'solution', 'extension', 'status')
-
-    def admin_action(self, request, queryset):
-        actions = ["export_as_csv"]
-
-        def export_as_csv(self, request, queryset):
-            pass
-
-            export_as_csv.short_description = "Export Selected"
-
-    @admin.action(description='Generate PDF file')
-    def generatePDF(modeladmin, request, queryset):
-        url = 'templates/admin/?pks=' + ','.join(str([q.pk for q in queryset]))
-
-    actions = [generatePDF]
+    fields = (
+    ('name', 'extension'), 'date_created', 'summary', 'assigned', 'category', 'solution', 'department', 'status')
+    list_display = ('name', 'date_created', 'summary', 'assigned', 'category', 'status')
+    ordering = ('name',)
+    readonly_fields = ('date_created',)
+    list_filter = ('date_created', 'category', 'status')
+    search_fields = ('name','date_created', 'extension', 'category', 'status')
 
 
 admin.site.register(Support, SupportAdmin)

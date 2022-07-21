@@ -76,6 +76,14 @@ TEMPLATES = [
         },
     },
 ]
+TEMPLATE_CONTEXT_PROCESSORS = (
+    "django.core.context_processors.auth",
+    "django.core.context_processors.debug",
+    "django.core.context_processors.i18n",
+    "django.core.context_processors.media",
+    "django.core.context_processors.request",
+)
+
 
 WSGI_APPLICATION = 'ictproject.wsgi.application'
 
@@ -144,8 +152,8 @@ MESSAGE_TAGS = {
     messages.ERROR: 'alert-danger',
 }
 
-AUTH_EXEMPT_ROUTES = ('register', 'login', 'password_reset')
-AUTH_LOGIN_ROUTE = 'register'
+AUTH_EXEMPT_ROUTES = ('register', 'login', 'password_reset', 'admin')
+AUTH_LOGIN_ROUTE = 'login'
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
