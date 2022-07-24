@@ -1,3 +1,4 @@
+
 $(document).ready(function(id){
 	// Activate tooltip
 	$('[data-toggle="tooltip"]').tooltip();
@@ -7,13 +8,13 @@ $(document).ready(function(id){
 	$("#selectAll").click(function(){
 		if(this.checked){
 			checkbox.each(function(){
-				this.checked = true;                        
+				this.checked = true;
 			});
 		} else{
 			checkbox.each(function(){
-				this.checked = false;                        
+				this.checked = false;
 			});
-		} 
+		}
 	});
 	checkbox.click(function(){
 		if(!this.checked){
@@ -30,3 +31,6 @@ $(".edit").click(function() {
 $(".ebcf_close").click(function() {
   $(".ebcf_modal").hide();
 });
+
+
+

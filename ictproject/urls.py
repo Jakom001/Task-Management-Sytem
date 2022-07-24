@@ -24,8 +24,8 @@ from decorator_include import decorator_include
 from support import views
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path("", views.Homepage, name='homepage'),
+    path('admin/', admin.site.urls, name='admin'),
+    path("", views.index, name='index'),
     path('support/', include('support.urls')),
     path('support/', include('django.contrib.auth.urls')),
     path('password_reset/done/',

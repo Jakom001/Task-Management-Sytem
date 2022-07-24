@@ -15,5 +15,6 @@ urlpatterns = [
     path('task_text', views.task_text, name='task_text'),
     path('task_csv', views.task_csv, name='task_csv'),
     path('task_pdf', views.task_pdf, name='task_pdf'),
+    path('search_task', views.search_task, name='search_task')
 
 ]

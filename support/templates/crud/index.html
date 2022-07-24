@@ -11,13 +11,14 @@
                     <div class="col-sm-6">
 						<h2>Manage <b>Tasks</b></h2>
 					</div>
-					<div class="col-sm-6">
+					<div class="col-sm-5">
 						<a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New Task</span></a>
-						<a href="#deleteEmployeeModal-{{forloop.counter}}" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Delete</span></a>
 					</div>
                 </div>
             </div>
-            <table class="table table-striped table-hover">
+			</br>
+			<div class="table-responsive">
+            <table id="task_table" class="table table-striped table-hover order-column " style="width:100%">
                 <thead>
                     <tr>
 						<th>
@@ -26,7 +27,7 @@
 								<label for="selectAll"></label>
 							</span>
 						</th>
-                        <th>ID</th>
+                        <th>No</th>
                     <th>Name</th>
                     <th>Date</th>
                     <th>Extension</th>
@@ -36,8 +37,9 @@
                     <th>Assigned</th>
                     <th>Solution</th>
                     <th>Status</th>
+					{% if user.is_staff %}
                     <th>Actions</th>
-
+					{% endif %}
                     </tr>
                 </thead>
                 <tbody>
@@ -50,18 +52,20 @@
 							</span>
 						</td>
                          <td>{{ support.id }}</td>
-							 <td>{{ support.name }}</td>
-							 <td>{{ support.date_created }}</td>
-							 <td>{{ support.extension }}</td>
-							 <td>{{ support.department }}</td>
-							 <td>{{ support.summary }}</td>
-							 <td>{{ support.category }}</td>
-							 <td>{{ support.assigned }}</td>
-							 <td>{{ support.solution }}</td>
-							 <td>{{ support.status }}</td>
+							 <td data-label>{{ support.name }}</td>
+							 <td data-label>{{ support.date_created }}</td>
+							 <td data-label>{{ support.extension }}</td>
+							 <td data-label>{{ support.department }}</td>
+							 <td data-label>{{ support.summary }}</td>
+							 <td data-label>{{ support.category }}</td>
+							 <td data-label>{{ support.assigned }}</td>
+							 <td data-label>{{ support.solution }}</td>
+							 <td data-label>{{ support.status }}</td>
                         <td>
+							{% if user.is_staff %}
                             <a href="#editEmployeeModal-{{forloop.counter}}" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                                  {% if user.is_superuser %}
+                            {% endif %}
+							{% if user.is_superuser %}
 							<a href="#deleteEmployeeModal-{{forloop.counter}}" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
                         		{% endif %}
 						</td>
@@ -70,12 +74,13 @@
 				{% endfor %}
                 </tbody>
             </table>
+				</div>
 			<br/></br>
 			<nav aria-label="Page navigation example">
         <ul class="pagination justify-content-center">
 
             <li class="page-item {% if not mytask.has_previous %} disabled {% endif %}">
-                <a class="page-link" href="?page=1" tabindex="-1">FIRST</a>
+                <a class="page-link" href="?page=1" tabindex="-1">&laquo First</a>
             </li>
             <li class="page-item {% if not mytask.has_previous %} disabled {% endif %}">
                 <a class="page-link" href="{% if mytask.has_previous %}?page={{ mytask.previous_page_number }}{% endif %} " tabindex="-1">Previous</a>
@@ -101,7 +106,7 @@
                 <a class="page-link" href="{% if mytask.has_next %} ?page={{ mytask.next_page_number }} {% endif %}">Next</a>
             </li>
             <li class="page-item {% if not mytask.has_next %} disabled {% endif %}">
-                <a class="page-link" href="{% if mytask.has_next %} ?page={{ mytask.paginator.num_pages }}  {% endif %}">LAST</a>
+                <a class="page-link" href="{% if mytask.has_next %} ?page={{ mytask.paginator.num_pages }}  {% endif %}">Last &raquo</a>
             </li>
         </ul>
     </nav>  
@@ -157,10 +162,12 @@
 					<option value="2">Data/Files</option>
 					</select>
 					</div>
+						{%if user.is_staff %}
 					<div class="form-group">
 							<label>Solution</label>
 							<textarea name="solution" class="form-control" required></textarea>
 						</div>
+						{% endif %}
 					<div class="form-group">
 						<label>Status</label>
 					<select name="status" class="form-select" aria-label="Default select example">
@@ -205,7 +212,7 @@
 						</div>
 						<div class="form-group">
 							<label>Summary</label>
-							<textarea value="{{ support.summary }}" name="summary" class="form-control" required></textarea>
+							<textarea value="{{ support.summary }}" name="summary" class="form-control" required>{{support.summary}}</textarea>
 						</div>
 						<div class="form-group">
 							<label>Assigned To</label>
@@ -214,7 +221,7 @@
 
 					<div class="form-group">
 						<label>Category</label>
-					<select value="{{ support.category }}" name="category" class="form-select" aria-label="Default select example">
+					<select value="{{ support.category }}" name="category" class="form-select" aria-label="Default select example">{{support.category}}
   					<option value="1">Network</option>
   					<option value="2">Printer</option>
   					<option value="3">Computer</option>
@@ -225,7 +232,7 @@
 					</div>
 					<div class="form-group">
 							<label>Solution</label>
-							<textarea  value="{{ support.solution }}" name="solution" class="form-control" required></textarea>
+							<textarea  value="{{ support.solution }}" name="solution" class="form-control" required>{{support.solution}}</textarea>
 						</div>
 					<div class="form-group">
 						<label>Status</label>

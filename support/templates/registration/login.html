@@ -1,19 +1,39 @@
 {% extends "base.html" %}
-
+{% load static i18n %}
 {% block main %}
 
 {% load crispy_forms_tags %}
 
 <!--Login-->
-<div class="container py-5">
-  <h1>Login</h1>
+</br>
+<div class="container shadow p-4 mb-5 bg-body rounded" style="max-width:430px;">
+  <div class="d-flex align-items-center mb-3 pb-1">
+  <span class="h1 fw-bold mb-0">KNH</span></br>
+</div>
   <form method="POST">
     {% csrf_token %}
     {{ login_form|crispy }}
-    <button class="btn btn-primary" type="submit">Login</button>
+    <div class="row mb-4">
+    <div class="col d-flex justify-content-center">
+      <!-- Checkbox -->
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="" id="form2Example31" checked />
+        <label class="form-check-label" for="form2Example31"> Remember me </label>
+      </div>
+    </div>
+
+    <div class="col">
+      <!-- Simple link -->
+      <a href="{% url 'password_reset' %}">Forgot password?</a>
+    </div>
+  </div>
+    <button class="btn btn-primary btn-block mb-4" type="submit">Sign in</button>
   </form>
-  <p class="text-center">Don't have an account? <a href="{% url 'register' %}">Create one</a>.</p>
-  <p class="text-center">Forgot your password? <a href="{% url 'password_reset' %}">Click here</a>.</p>
+  <div class="text-center">
+    <p>Not a member? <a href="{% url 'register' %}">Register</a></p>
+  </div>
 </div>
+
+
 
 {% endblock %}

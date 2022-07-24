@@ -1,5 +1,7 @@
 import csv
+import datetime
 import io
+from datetime import timezone
 
 from django.contrib import messages
 from django.contrib.auth import login, authenticate, logout
@@ -25,6 +27,21 @@ import support
 from support.form import UserForm
 from support.forms import NewUserForm
 from support.models import Support
+
+
+def search_task(request):
+    if request.method == "POST":
+        searched = request.POST['searched']
+        supports = Support.objects.filter(name__contains=searched)
+
+        return render(request,
+                      'search_task.html',
+                      {'searched': searched,
+                       'supports': supports})
+    else:
+        return render(request,
+                      'search_task.html',
+                      {})
 
 
 # Generate a PDF File Venue List
@@ -89,13 +106,16 @@ def task_csv(request):
     tasks = Support.objects.all()
 
     # Add column headings to the csv file
-    writer.writerow(['Name', 'Date', 'Extension', 'Department', 'Summary', 'category', 'assigned', 'solution', 'status'])
+    writer.writerow(
+        ['Name', 'Date', 'Extension', 'Department', 'Summary', 'category', 'assigned', 'solution', 'status'])
 
     # Loop Thu and output
     for task in tasks:
-        writer.writerow([task.name, task.date_created, task.extension, task.department, task.summary, task.category, task.assigned, task.solution, task.status])
+        writer.writerow(
+            [task.name, task.date_created, task.extension, task.department, task.summary, task.category, task.assigned,
+             task.solution, task.status])
 
-        return response
+    return response
 
 
 # Generate Text File Venue List
@@ -133,19 +153,6 @@ def register_request(request):
         messages.error(request, "Unsuccessful registration. Invalid information.")
     form = NewUserForm()
     return render(request=request, template_name="registration/register.html", context={"register_form": form})
-
-
-def Homepage(request):
-    supports = Support.objects.all().order_by('-id')
-    # pagination set up
-    p = Paginator(Support.objects.all(), 10)
-    page = request.GET.get('page')
-    mytask = p.get_page(page)
-
-    return render(request, 'main.html',
-                  {'supports': supports,
-                   'mytask': mytask}
-                  )
 
 
 def login_request(request):
@@ -200,7 +207,7 @@ def password_reset_request(request):
 
                     messages.success(request, 'A message with reset password instructions has been sent to your inbox.')
                     return redirect("/")
-            messages.error(request, 'An invalid email has been entered.')
+            messages.error(request, 'Please ensure you are registered and the email is valid .')
     password_reset_form = PasswordResetForm()
     return render(request=request, template_name="registration/password_reset.html",
                   context={"password_reset_form": password_reset_form})
@@ -222,14 +229,19 @@ def networking(request):
 
 
 def workshop(request):
-    context = {}
-    return render(request, 'workshop.html', context)
+    if request.user.is_staff:
+        context = {}
+        return render(request, 'workshop.html', context)
+    else:
+        messages.error(request, "You Aren't Authorized To View This Page")
+        return redirect('/')
 
 
 def index(request):
-    supports = Support.objects.all()
+
+    supports = Support.objects.all().order_by('-id')
     # pagination set up
-    p = Paginator(Support.objects.all(), 10)
+    p = Paginator(Support.objects.all().order_by('-id'), 10)
     page = request.GET.get('page')
     mytask = p.get_page(page)
 
@@ -274,34 +286,42 @@ def Edit(request):
 
 def Update(request, id):
     if request.method == "POST":
-        name = request.POST.get('name')
-        extension = request.POST.get('extension')
-        department = request.POST.get('department')
-        summary = request.POST.get('summary')
-        category = request.POST.get('category')
-        assigned = request.POST.get('assigned')
-        solution = request.POST.get('solution')
-        status = request.POST.get('status')
+        if request.user.is_staff:
+            name = request.POST.get('name')
+            extension = request.POST.get('extension')
+            department = request.POST.get('department')
+            summary = request.POST.get('summary')
+            category = request.POST.get('category')
+            assigned = request.POST.get('assigned')
+            solution = request.POST.get('solution')
+            status = request.POST.get('status')
 
-        supports = Support(
+            supports = Support(
 
-            id=id,
-            name=name,
-            extension=extension,
-            department=department,
-            summary=summary,
-            category=category,
-            assigned=assigned,
-            solution=solution,
-            status=status,
-        )
-        supports.save()
-        messages.success(request, "Task updated successfully")
-        return redirect('index')
+                id=id,
+                name=name,
+                extension=extension,
+                department=department,
+                summary=summary,
+                category=category,
+                assigned=assigned,
+                solution=solution,
+                status=status,
+            )
+            supports.save()
+            messages.success(request, "Task updated successfully")
+            return redirect('index')
+        else:
+            messages.warning(request, "You are not authorized to make changes")
+            return redirect('/')
 
 
 def Delete(request, id):
-    supports = Support.objects.filter(id=id)
-    supports.delete()
-    messages.warning(request, "Task deleted successfully")
-    return redirect('index')
+    if request.user.is_superuser:
+        supports = Support.objects.filter(id=id)
+        supports.delete()
+        messages.warning(request, "Task deleted successfully")
+        return redirect('index')
+    else:
+        messages.warning(request, "You are not authorized for such operations")
+        return redirect('/')
