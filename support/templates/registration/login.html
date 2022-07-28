@@ -2,8 +2,22 @@
 {% load static i18n %}
 {% block main %}
 
-{% load crispy_forms_tags %}
 
+<form action="" method=POST>
+      {% csrf_token %}    
+  <div class="mb-3">
+    <label for="exampleInputEmail1" class="form-label">Username</label>
+    <input type="text" class="form-control" name="username" aria-describedby="emailHelp">
+    
+  </div>
+  <div class="mb-3">
+    <label for="exampleInputPassword1" class="form-label">Password</label>
+    <input type="password" class="form-control" name="password">
+  </div>
+      <input type="submit" value="Submit" class="btn btn-secondary">
+
+    </form>
+    
 <!--Login-->
 </br>
 <div class="container shadow p-4 mb-5 bg-body rounded" style="max-width:430px;">
@@ -12,7 +26,19 @@
 </div>
   <form method="POST">
     {% csrf_token %}
-    {{ login_form|crispy }}
+      <div class="form-outline mb-4">
+         <label class="form-label" for="form2Example1">username</label>
+    <input type="text" id="form2Example1" class="form-control" />
+   
+  </div>
+
+    <div class="form-outline mb-4">
+      <label class="form-label" for="form2Example2">Password</label>
+    <input type="password" id="form2Example2" class="form-control" />
+    
+  </div>
+
+
     <div class="row mb-4">
     <div class="col d-flex justify-content-center">
       <!-- Checkbox -->
@@ -27,13 +53,11 @@
       <a href="{% url 'password_reset' %}">Forgot password?</a>
     </div>
   </div>
-    <button class="btn btn-primary btn-block mb-4" type="submit">Sign in</button>
+<button type="button" class="btn btn-primary btn-block mb-4">Sign in</button>
   </form>
   <div class="text-center">
     <p>Not a member? <a href="{% url 'register' %}">Register</a></p>
   </div>
 </div>
-
-
 
 {% endblock %}

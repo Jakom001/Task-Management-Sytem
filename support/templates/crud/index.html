@@ -4,7 +4,7 @@
 	{% block main %}
 
 <body xmlns="http://www.w3.org/1999/html">
-    <div class="container">
+
         <div class="table-wrapper">
             <div class="table-title">
                 <div class="row">
@@ -43,7 +43,7 @@
                     </tr>
                 </thead>
                 <tbody>
-					{% for support in mytask %}
+					{% for support in supports %}
                     <tr>
 						<td>
 							<span class="custom-checkbox">
@@ -51,16 +51,16 @@
 								<label for="checkbox1"></label>
 							</span>
 						</td>
-                         <td>{{ support.id }}</td>
-							 <td data-label>{{ support.name }}</td>
-							 <td data-label>{{ support.date_created }}</td>
-							 <td data-label>{{ support.extension }}</td>
-							 <td data-label>{{ support.department }}</td>
-							 <td data-label>{{ support.summary }}</td>
-							 <td data-label>{{ support.category }}</td>
-							 <td data-label>{{ support.assigned }}</td>
-							 <td data-label>{{ support.solution }}</td>
-							 <td data-label>{{ support.status }}</td>
+							<td>{{ support.id }}</td>
+							 <td>{{ support.name }}</td>
+							 <td>{{ support.date_created }}</td>
+							 <td>{{ support.extension }}</td>
+							 <td>{{ support.department }}</td>
+							 <td>{{ support.summary }}</td>
+							 <td>{{ support.category }}</td>
+							 <td>{{ support.assigned }}</td>
+							 <td>{{ support.solution }}</td>
+							 <td>{{ support.status }}</td>
                         <td>
 							{% if user.is_staff %}
                             <a href="#editEmployeeModal-{{forloop.counter}}" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
@@ -76,8 +76,9 @@
             </table>
 				</div>
 			<br/></br>
-			<nav aria-label="Page navigation example">
-        <ul class="pagination justify-content-center">
+			<!-- have used datatables instead -->
+			<!-- <nav aria-label="Page navigation example">
+        	<ul class="pagination justify-content-center">
 
             <li class="page-item {% if not mytask.has_previous %} disabled {% endif %}">
                 <a class="page-link" href="?page=1" tabindex="-1">&laquo First</a>
@@ -108,17 +109,19 @@
             <li class="page-item {% if not mytask.has_next %} disabled {% endif %}">
                 <a class="page-link" href="{% if mytask.has_next %} ?page={{ mytask.paginator.num_pages }}  {% endif %}">Last &raquo</a>
             </li>
-        </ul>
-    </nav>  
-<br/>
+        	</ul>
+
+    		</nav>   
+			<br/>
 
 
 			<div class="clearfix">
                 <div class="hint-text">Showing {{ mytask.start_index }}-{{ mytask.end_index }} out of <b>{{ mytask.paginator.count }}</b> entries</div>
 
             </div>
-        </div>
-    </div>
+            -->
+       	</div>
+
 
 	<!-- add Modal HTML -->
 	<div id="addEmployeeModal" class="modal fade">
@@ -145,7 +148,7 @@
 						</div>
 						<div class="form-group">
 							<label>Summary</label>
-							<textarea name="summary" class="form-control" required></textarea>
+							<textarea name="summary" class="form-control" rows="4" required></textarea>
 						</div>
 						<div class="form-group">
 							<label>Assigned To</label>
@@ -153,29 +156,31 @@
 						</div>
 					<div class="form-group">
 						<label>Category</label>
-					<select name="category" class="form-select" aria-label="Default select example">
-  					<option value="1">Network</option>
-  					<option value="2">Printer</option>
-  					<option value="3">Computer</option>
-					<option value="2">CCTV</option>
-					<option value="2">Software</option>
-					<option value="2">Data/Files</option>
+					<select name="category" class="form-select form-select-lg" aria-label="Default select example">
+  					<option value="Network">Network</option>
+  					<option value="Printer">Printer</option>
+  					<option value="Computer">Computer</option>
+					<option value="CCTV">CCTV</option>
+					<option value="Software">Software</option>
+					<option value="Data/Files">Data/Files</option>
 					</select>
 					</div>
 						{%if user.is_staff %}
 					<div class="form-group">
 							<label>Solution</label>
-							<textarea name="solution" class="form-control" required></textarea>
+							<textarea name="solution" class="form-control" rows="4" required></textarea>
 						</div>
 						{% endif %}
 					<div class="form-group">
 						<label>Status</label>
-					<select name="status" class="form-select" aria-label="Default select example">
-  					<option value="1">New</option>
-  					<option value="2">Completed</option>
-  					<option value="3">Review</option>
+					<select name="status" class="form-select form-select-lg" aria-label="Default select example">
+  					<option value="New">New</option>
+  					<option value="Completed">Completed</option>
+  					<option value="Review">Review</option>
 					</select>
 					</div>
+
+
 					</div>
 					<div class="modal-footer">
 						<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
@@ -187,7 +192,7 @@
 	</div>
 
 	<!-- Edit Modal HTML -->
-	{% for support in mytask %}
+	{% for support in supports %}
 	<div id="editEmployeeModal-{{forloop.counter}}" class="modal fade">
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -197,11 +202,13 @@
 						<h4 class="modal-title">Edit Task</h4>
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 					</div>
+					
 					<div class="modal-body">
 						<div class="form-group">
 							<label>Name(User)</label>
 							<input type="text" value="{{ support.name }}" name="name" class="form-control" required>
 						</div>
+						
 						<div class="form-group">
 							<label>Extension</label>
 							<input type="number"  value="{{ support.extension }}" name="extension" class="form-control" required>
@@ -222,26 +229,33 @@
 					<div class="form-group">
 						<label>Category</label>
 					<select value="{{ support.category }}" name="category" class="form-select" aria-label="Default select example">{{support.category}}
-  					<option value="1">Network</option>
-  					<option value="2">Printer</option>
-  					<option value="3">Computer</option>
-					<option value="2">CCTV</option>
-					<option value="2">Software</option>
-					<option value="2">Data/Files</option>
+  					<option value="">{{support.category}}</option>
+  					<option value="Network">Network</option>
+  					<option value="Printer">Printer</option>
+  					<option value="Computer">Computer</option>
+					<option value="CCTV">CCTV</option>
+					<option value="Software">Software</option>
+					<option value="Data/Files">Data/Files</option>
 					</select>
 					</div>
+
 					<div class="form-group">
 							<label>Solution</label>
 							<textarea  value="{{ support.solution }}" name="solution" class="form-control" required>{{support.solution}}</textarea>
 						</div>
-					<div class="form-group">
+
+							<div class="form-group">
 						<label>Status</label>
-					<select value="{{ support.status }}" name="status" class="form-select" aria-label="Default select example">
-  					<option value="1">New</option>
-  					<option value="2">Completed</option>
-  					<option value="3">Review</option>
+					<select value="{{ support.status }}" id="status" name="status" class="form-select form-select-lg" aria-label="Default select example">
+  					<option value="">{{support.status}}</option>
+  					<option value="New">New</option>
+  					<option value="Completed">Completed</option>
+  					<option value="Completed">Review</option>
 					</select>
 					</div>
+						
+
+					
 					</div>
 					<div class="modal-footer">
 						<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
@@ -253,7 +267,7 @@
 	</div>
 {% endfor %}
 	<!-- Delete Modal HTML -->
-{% for support in mytask %}
+{% for support in supports %}
 	<div id="deleteEmployeeModal-{{forloop.counter}}" class="modal fade">
 		<div class="modal-dialog del">
 			<div class="modal-content">
@@ -275,4 +289,12 @@
 		</div>
 	</div>
 {% endfor %}
+<script type="text/javascript">
+	$(document).ready(function () {
+    $('#task_table').DataTable();
+});
+</script>
+
+
 {% endblock %}
+

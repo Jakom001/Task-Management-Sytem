@@ -16,3 +16,4 @@ class UserForm(ModelForm):
             'assigned': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Name'}),
             'status': forms.Select(attrs={'class': 'form-control col-md-4'}),
         }
+

@@ -32,5 +32,10 @@ $(".ebcf_close").click(function() {
   $(".ebcf_modal").hide();
 });
 
+    
+$(document).ready(function () {
+    $('#task_table').DataTable();
+});
+
 
 

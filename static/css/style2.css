@@ -17,6 +17,7 @@ body{
   justify-content: space-between;
   height: 70px;
   padding: 0 100px;
+
 }
 .navbar1 nav .logo{
   color: #fff;
@@ -178,24 +179,7 @@ body{
     display: block;
   }
 }
-.content{
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  text-align: center;
-  transform: translate(-50%, -50%);
-}
-.content header{
-  font-size: 30px;
-  font-weight: 700;
-}
-.content .text{
-  font-size: 30px;
-  font-weight: 700;
-}
-.space{
-  margin: 10px 0;
-}
+
 .navbar1 nav .logo.space{
   color: red;
   padding: 0 5px 0 0;
@@ -205,6 +189,7 @@ body{
   .navbar1 nav .cancel-icon,
   .navbar1 nav .search-icon{
     margin: 0 20px;
+      z-index:2;
   }
   .navbar1 nav form{
     right: 30px;
@@ -216,22 +201,7 @@ body{
   .navbar1 nav .search-icon{
     margin: 0 10px;
     font-size: 16px;
+      z-index: 2;
+
   }
-}
-.content{
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-.content header{
-  font-size: 30px;
-  font-weight: 700;
-}
-.content .text{
-  font-size: 30px;
-  font-weight: 700;
-}
-.content .space{
-  margin: 10px 0;
 }

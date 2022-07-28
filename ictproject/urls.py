@@ -16,10 +16,8 @@ Including another URLconf
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import path, include
 from django.contrib.auth import views as auth_views
-from django.views.generic import TemplateView
-from decorator_include import decorator_include
+from django.urls import path, include
 
 from support import views
 
@@ -27,7 +25,8 @@ urlpatterns = [
     path('admin/', admin.site.urls, name='admin'),
     path("", views.index, name='index'),
     path('support/', include('support.urls')),
-    path('support/', include('django.contrib.auth.urls')),
+    path('members/', include('django.contrib.auth.urls')),
+    path('members/', include('members.urls')),
     path('password_reset/done/',
          auth_views.PasswordResetDoneView.as_view(template_name='registration/password_reset_done.html'),
          name='password_reset_done'),

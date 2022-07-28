@@ -6,3 +6,4 @@ tzdata==2022.1
 django-filter~=22.1
 fpdf~=1.7.2
 reportlab~=3.6.11
+weasyprint~=56.1

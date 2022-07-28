@@ -1,32 +1,25 @@
 from django.contrib.auth.models import User
+from django.utils import timezone
 from django.db import models
 
 
 class Support(models.Model):
     Status = (
-        (u"New", u'New'),
-        (u"Completed", u'Completed'),
-        (u"Review", u'Review'),
+        ('New', 'New'),
+        ('Completed', 'Completed'),
+        ('Review', 'Review'),
     )
     Category = (
-        (u"Network", u'Network'),
-        (u"Printer", u'Printer'),
-        (u"CCTV", u'CCTV'),
-        (u"Software", u'Software'),
-        (u"Data/Files", u'Data/Files'),
+        ("Network", 'Network'),
+        ("Printer", 'Printer'),
+        ("CCTV", 'CCTV'),
+        ("Software", 'Software'),
+        ("Data/Files", 'Data/Files'),
 
     )
 
-    # class Category(models.TextChoices):
-    #     NETWORK = 1, 'Network'
-    #     PRINTER = 2, 'Printer'
-    #     COMPUTER = 3, 'Computer'
-    #     CCTV = 4, 'CCTV'
-    #     SOFTWARE = 5, 'Software'
-    #     Data = 6, 'Data/Files'
-
     name = models.CharField('Name (User)', max_length=255)
-    date_created = models.DateTimeField('Date', auto_now_add=True, null=True)
+    date_created = models.DateTimeField('Date', editable=False, null=True)
     extension = models.IntegerField('Extension')
     department = models.CharField('Department', max_length=255)
     category = models.CharField(choices=Category, max_length=120, default='Network')
@@ -39,6 +32,11 @@ class Support(models.Model):
         verbose_name_plural = 'Tasks'
         db_table = 'support'
 
+    def save(self, *args, **kwargs):
+        ''' On save, update timestamps '''
+        self.date_created = timezone.now()
+        return super(Support, self).save(*args, **kwargs)
+
+
     def __str__(self):
         return self.name
-
