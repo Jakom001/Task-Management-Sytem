@@ -11,6 +11,8 @@ class LoginRequiredMiddleware(MiddlewareMixin):
     in settings by setting a tuple of routes to ignore
     """
     def process_request(self, request):
+        if request.path.startswith(reverse('admin:index')):
+            return None
         assert hasattr(request, 'user'), """
         The Login Required middleware needs to be after AuthenticationMiddleware.
         Also make sure to include the template context_processor:
@@ -21,3 +23,4 @@ class LoginRequiredMiddleware(MiddlewareMixin):
 
             if not current_route_name in settings.AUTH_EXEMPT_ROUTES:
                 return HttpResponseRedirect(reverse(settings.AUTH_LOGIN_ROUTE))
+

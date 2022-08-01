@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.utils import timezone
+from datetime import datetime, date
 from django.db import models
 
 
@@ -12,14 +13,14 @@ class Support(models.Model):
     Category = (
         ("Network", 'Network'),
         ("Printer", 'Printer'),
-        ("CCTV", 'CCTV'),
+        ("Computer", 'Computer'),
         ("Software", 'Software'),
         ("Data/Files", 'Data/Files'),
 
     )
 
     name = models.CharField('Name (User)', max_length=255)
-    date_created = models.DateTimeField('Date', editable=False, null=True)
+    date_created = models.DateTimeField('Date', auto_now_add=True, null=True)
     extension = models.IntegerField('Extension')
     department = models.CharField('Department', max_length=255)
     category = models.CharField(choices=Category, max_length=120, default='Network')
@@ -30,7 +31,7 @@ class Support(models.Model):
 
     class Meta:
         verbose_name_plural = 'Tasks'
-        db_table = 'support'
+        db_table = 'task_monitor'
 
     def save(self, *args, **kwargs):
         ''' On save, update timestamps '''

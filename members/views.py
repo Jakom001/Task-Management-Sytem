@@ -1,21 +1,31 @@
 from django.contrib import messages
 from django.contrib.auth import login, authenticate, logout
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
 from django.contrib.auth.forms import PasswordResetForm
 from django.contrib.auth.models import User
 from django.contrib.auth.tokens import default_token_generator
+from django.contrib.auth.views import PasswordChangeView
 from django.core.mail import send_mail, BadHeaderError
 from django.db.models.query_utils import Q
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
+from django.urls import reverse_lazy
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
 
-from .forms import NewUserForm
+from .forms import NewUserForm, PasswordChangingForm
 
 
-# Create your views here.
+class PasswordChangeView(PasswordChangeView):
+    form_class = PasswordChangingForm
+    # form_class = PasswordChangeForm
+    success_url = reverse_lazy('password_success')
+    # success_url = reverse_lazy('/')
+
+
+def password_success(request):
+    return render(request, 'registration/password_success.html', {})
 
 
 def register_request(request):
@@ -33,35 +43,21 @@ def register_request(request):
 
 def login_request(request):
     if request.method == "POST":
-        username = request.POST['username']
-        password = request.POST['password']
-        user = authenticate(request, username=username, password=password)
-        if user is not None:
-            login(request, user)
-            return redirect('/')
+        form = AuthenticationForm(request, data=request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                login(request, user)
+                messages.info(request, f"You are now logged in as {username}.")
+                return redirect("/")
+            else:
+                messages.error(request, "Invalid username or password.")
         else:
-            messages.success(request, "There Was An Error Logging In, Try Again...")
-            return redirect('login')
-
-    else:
-        return render(request, 'registration/login.html', {})
-
-    # if request.method == "POST":
-    #     form = AuthenticationForm(request, data=request.POST)
-    #     if form.is_valid():
-    #         username = form.cleaned_data.get('username')
-    #         password = form.cleaned_data.get('password')
-    #         user = authenticate(username=username, password=password)
-    #         if user is not None:
-    #             login(request, user)
-    #             messages.info(request, f"You are now logged in as {username}.")
-    #             return redirect("/")
-    #         else:
-    #             messages.error(request, "Invalid username or password.")
-    #     else:
-    #         messages.error(request, "Invalid username or password.")
-    # form = AuthenticationForm()
-    # return render(request=request, template_name="registration/login.html", context={"login_form": form})
+            messages.error(request, "Invalid username or password.")
+    form = AuthenticationForm()
+    return render(request=request, template_name="registration/login.html", context={"login_form": form})
 
 
 def logout_request(request):

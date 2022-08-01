@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block main %}
+
+{% load crispy_forms_tags %}         
+
+<!--Register--> 
+<div class="container shadow p-4 mb-5 bg-body rounded">
+	<h2 class="text-uppercase text-center mb-5">Create an account</h2>
+	<form method="POST">
+		{% csrf_token %}
+		{{ register_form|crispy }}
+		<div class="form-check d-flex justify-content-center mb-5">
+                  <input class="form-check-input me-2" type="checkbox" value="" id="form2Example3cg" />
+                  <label class="form-check-label" for="form2Example3g">
+                    I agree all statements in <a href="#!" class="text-body"><u>Terms of service</u></a>
+                  </label>
+                </div>
+		<button class="btn btn-primary btn-block mb-4" type="submit">Register</button>
+	</form>
+	<div class="text-center">
+    <p>Already have an account?  <a href="{% url 'login' %}">Login Here</a></p>
+  </div>
+</div>
+
+{% endblock %}

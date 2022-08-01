@@ -13,4 +13,8 @@ urlpatterns = [
     path('task_csv', views.task_csv, name='task_csv'),
     path('task_pdf', views.task_pdf, name='task_pdf'),
     path('search_task', views.search_task, name='search_task'),
+    path('delete/<str:id>', views.Delete, name='delete'),
+    path('update/<int:pk>', views.Update, name='update'),
 ]
+
+

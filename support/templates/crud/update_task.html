@@ -1,0 +1,22 @@
+
+{% extends "base.html" %}
+{% block title %}Edit task {% endblock %}
+{% load crispy_forms_tags %}
+	{% block main %}
+
+<div class="container shadow p-4 mb-3 bg-body rounded" style="max-width:600px;">
+	<div class="form-group">
+		   <h3>Edit Task</h3>
+		<form method="POST">
+		{% csrf_token %}
+				 {{ form|crispy }}
+			<div class="d-grid gap-2 col-6 mx-auto">
+			<input type="submit" value="Update" class="btn btn-primary">
+			</div>
+		</form>
+		</div>
+	 <div class="col-md-12 text-end">
+		<a class="btn btn-primary " href="/" role="button">Go Back</a>
+	 </div>
+</div>
+{% endblock %}

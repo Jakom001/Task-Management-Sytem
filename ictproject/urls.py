@@ -16,7 +16,6 @@ Including another URLconf
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.contrib.auth import views as auth_views
 from django.urls import path, include
 
 from support import views
@@ -24,20 +23,9 @@ from support import views
 urlpatterns = [
     path('admin/', admin.site.urls, name='admin'),
     path("", views.index, name='index'),
-    path('support/', include('support.urls')),
-    path('members/', include('django.contrib.auth.urls')),
-    path('members/', include('members.urls')),
-    path('password_reset/done/',
-         auth_views.PasswordResetDoneView.as_view(template_name='registration/password_reset_done.html'),
-         name='password_reset_done'),
-    path('reset/<uidb64>/<token>/',
-         auth_views.PasswordResetConfirmView.as_view(template_name="registration/password_reset_confirm.html"),
-         name='password_reset_confirm'),
-    path('reset/done/',
-         auth_views.PasswordResetCompleteView.as_view(template_name='registration/password_reset_complete.html'),
-         name='password_reset_complete'),
-    path('delete/<str:id>', views.Delete, name='delete'),
-    path('update/<str:id>', views.Update, name='update'),
+    path('', include('support.urls')),
+    path('', include('django.contrib.auth.urls')),
+    path('', include('members.urls')),
 
 ]
 
@@ -47,3 +35,9 @@ if settings.DEBUG:
 admin.site.site_header = "KNH ICT Admin"
 admin.site.site_title = "KNH ICT Admin Portal"
 admin.site.index_title = "Welcome to KNH ICT Support Portal"
+
+
+# handler404 = 'support.views.error_404'
+# handler500 = 'support.views.error_500'
+# handler403 = 'support.views.error_403'
+# handler400 = 'support.views.error_400'

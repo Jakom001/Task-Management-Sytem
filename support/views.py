@@ -1,16 +1,18 @@
 import csv
 import datetime
 import tempfile
+import helpers
 
 from django.contrib import messages
+from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
 # pdf stuff
 from weasyprint import HTML
 
-from support.form import UserForm
-from support.models import Support
+from .forms import UserForm, EditForm
+from .models import Support
 
 
 def search_task(request):
@@ -50,46 +52,6 @@ def task_pdf(request):
         response.write(output.read())
 
     return response
-
-    # # Create Bytestream buffer
-    # buf = io.BytesIO()
-    # # Create a canvas
-    # c = canvas.Canvas(buf, pagesize=letter, bottomup=0)
-    # # Create a text object
-    # textob = c.beginText()
-    # textob.setTextOrigin(inch, inch)
-    # textob.setFont("Helvetica", 14)
-    #
-    # # Add some lines of text
-    # # lines = [
-    # #	"This is line 1",
-    # #	"This is line 2",
-    # #	"This is line 3",
-    # # ]
-    #
-    # # Designate The Model
-    # tasks = Support.objects.all()
-    #
-    # # Create blank list
-    # lines = []
-    #
-    # for task in tasks:
-    #     lines.append(task.id)
-    #     lines.append(task.name)
-    #     lines.append(" ")
-    #
-    # # Loop
-    # for line in lines:
-    #     textob.textLine(line)
-    #
-    # # Finish Up
-    # c.drawText(textob)
-    # c.showPage()
-    # c.save()
-    # buf.seek(0)
-    #
-    # # Return something
-    # return FileResponse(buf, as_attachment=True, filename='task.pdf')
 
 
 # Generate CSV File Venue List
@@ -142,7 +104,6 @@ def task_text(request):
     return response
 
 
-
 def networking(request):
     if request.method == "POST":
         form = UserForm(request.POST)
@@ -168,6 +129,9 @@ def workshop(request):
 
 
 def index(request):
+    # get Counts
+    task_count = Support.objects.all().count
+    user_count = User.objects.all().count
     supports = Support.objects.all().order_by('-id')
 
     # pagination set up
@@ -175,34 +139,48 @@ def index(request):
     # page = request.GET.get('page')
     # mytask = p.get_page(page)
 
-    return render(request, 'crud/index.html', {'supports': supports})
-    # include -- 'mytask': mytask -- to use in pagination. now have used data tables instead
+    return render(request, 'crud/index.html', {'supports': supports,
+                                               'task_count': task_count,
+                                               'user_count': user_count
+                                               })
 
 
 def add_task(request):
     if request.method == "POST":
-        name = request.POST.get('name')
-        extension = request.POST.get('extension')
-        department = request.POST.get('department')
-        summary = request.POST.get('summary')
-        category = request.POST.get('category')
-        assigned = request.POST.get('assigned')
-        solution = request.POST.get('solution')
-        status = request.POST.get('status')
-
-        supports = Support(
-            name=name,
-            extension=extension,
-            department=department,
-            summary=summary,
-            category=category,
-            assigned=assigned,
-            solution=solution,
-            status=status,
-        )
-        supports.save()
-    messages.success(request, "Task added successfully")
-    return redirect('index')
+        form = UserForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'User form request submitted successfully.')
+            return redirect('index')
+        else:
+            messages.error(request, 'Invalid form submission.')
+            messages.error(request, form.errors)
+    else:
+        form = UserForm()
+    return render(request, 'crud/index.html', {'form': form})
+    # if request.method == "POST":
+    #     name = request.POST.get('name')
+    #     extension = request.POST.get('extension')
+    #     department = request.POST.get('department')
+    #     summary = request.POST.get('summary')
+    #     category = request.POST.get('category')
+    #     assigned = request.POST.get('assigned')
+    #     solution = request.POST.get('solution')
+    #     status = request.POST.get('status')
+    #
+    #     supports = Support(
+    #         name=name,
+    #         extension=extension,
+    #         department=department,
+    #         summary=summary,
+    #         category=category,
+    #         assigned=assigned,
+    #         solution=solution,
+    #         status=status,
+    #     )
+    #     supports.save()
+    # messages.success(request, "Task added successfully")
+    # return redirect('index')
 
 
 def Edit(request):
@@ -213,36 +191,49 @@ def Edit(request):
     return redirect(request, 'crud/index.html', context)
 
 
-def Update(request, id):
-    if request.user.is_staff:
-        if request.method == "POST":
-            name = request.POST.get('name')
-            extension = request.POST.get('extension')
-            department = request.POST.get('department')
-            summary = request.POST.get('summary')
-            category = request.POST.get('category')
-            assigned = request.POST.get('assigned')
-            solution = request.POST.get('solution')
-            status = request.POST.get('status')
-
-            supports = Support(
-
-                id=id,
-                name=name,
-                extension=extension,
-                department=department,
-                summary=summary,
-                category=category,
-                assigned=assigned,
-                solution=solution,
-                status=status,
-            )
-            supports.save()
-        messages.success(request, "Task updated successfully")
-        return redirect('index')
+def Update(request, pk):
+    supports = Support.objects.get(id=pk)
+    if request.method == 'POST':
+        form = EditForm(request.POST, instance=supports)
+        if form.is_valid():
+            form.save()
+            return redirect('index')
     else:
-        messages.warning(request, "You are not authorized to make changes")
-        return redirect('/')
+        form = EditForm(instance=supports)
+    context = {
+        'form': form,
+    }
+    return render(request, 'crud/update_task.html', context)
+
+    # if request.user.is_staff:
+    #     if request.method == "POST":
+    #         name = request.POST.get('name')
+    #         extension = request.POST.get('extension')
+    #         department = request.POST.get('department')
+    #         summary = request.POST.get('summary')
+    #         category = request.POST.get('category')
+    #         assigned = request.POST.get('assigned')
+    #         solution = request.POST.get('solution')
+    #         status = request.POST.get('status')
+    #
+    #         supports = Support(
+    #
+    #             id=id,
+    #             name=name,
+    #             extension=extension,
+    #             department=department,
+    #             summary=summary,
+    #             category=category,
+    #             assigned=assigned,
+    #             solution=solution,
+    #             status=status,
+    #         )
+    #         supports.save()
+    #     messages.success(request, "Task updated successfully")
+    #     return redirect('index')
+    # else:
+    #     messages.warning(request, "You are not authorized to make changes")
+    #     return redirect('/')
 
 
 def Delete(request, id):
@@ -256,5 +247,11 @@ def Delete(request, id):
         return redirect('/')
 
 
-def handle_not_found(request, exception):
-    return render(request, 'not_found.html')
+def error_404(request, exception):
+        data = {}
+        return render(request, 'support/404.html', data)
+
+
+def error_500(request, exception):
+    data = {}
+    return render(request, 'support/500.html', data)

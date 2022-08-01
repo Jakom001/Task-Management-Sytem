@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'support.apps.SupportConfig',
+    'members.apps.MembersConfig',
     'django_tables2',
     'django_filters',
     "django_htmx",
@@ -91,10 +92,23 @@ WSGI_APPLICATION = 'ictproject.wsgi.application'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
 DATABASES = {
+
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+
+        'ENGINE': 'django.db.backends.postgresql',
+
+        'NAME': 'ICT_TASK_MONITOR',
+
+        'USER': 'postgres',
+
+        'PASSWORD': 'jakom001',
+
+        'HOST': 'localhost',
+
+        'PORT': '5432',
+
     }
+
 }
 
 # Password validation
@@ -155,7 +169,12 @@ MESSAGE_TAGS = {
 AUTH_EXEMPT_ROUTES = ('register', 'login', 'password_reset', 'admin')
 AUTH_LOGIN_ROUTE = 'login'
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = '587'
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'pymosh120@gmail.com'
+EMAIL_PASSWORD = 'twccbrzmjmhnzmif'
 
 AUTH_ADFS = {
     'LOGIN_EXEMPT_URLS': [
