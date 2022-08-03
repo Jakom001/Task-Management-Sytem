@@ -31,7 +31,7 @@ class Support(models.Model):
 
     class Meta:
         verbose_name_plural = 'Tasks'
-        db_table = 'task_monitor'
+        db_table = 'support'
 
     def save(self, *args, **kwargs):
         ''' On save, update timestamps '''
