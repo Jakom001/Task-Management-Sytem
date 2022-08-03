@@ -2,7 +2,7 @@ import csv
 import datetime
 import tempfile
 import helpers
-
+from django.db.models import Q, Count
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect, HttpResponse
@@ -120,18 +120,20 @@ def networking(request):
 
 
 def workshop(request):
-    if request.user.is_staff:
-        context = {}
-        return render(request, 'workshop.html', context)
-    else:
-        messages.error(request, "You Aren't Authorized To View This Page")
-        return redirect('/')
+    context = {}
+    return render(request, 'workshop.html', context)
 
 
 def index(request):
     # get Counts
     task_count = Support.objects.all().count
     user_count = User.objects.all().count
+    status_count = Support.objects.annotate(
+        section1_count=Count('status', filter=Q(status='NEW')),
+        section2_count=Count('status', filter=Q(status='Completed')),
+        section3_count=Count('status', filter=Q(status='Review')),
+
+    )
     supports = Support.objects.all().order_by('-id')
 
     # pagination set up
@@ -158,29 +160,6 @@ def add_task(request):
     else:
         form = UserForm()
     return render(request, 'crud/index.html', {'form': form})
-    # if request.method == "POST":
-    #     name = request.POST.get('name')
-    #     extension = request.POST.get('extension')
-    #     department = request.POST.get('department')
-    #     summary = request.POST.get('summary')
-    #     category = request.POST.get('category')
-    #     assigned = request.POST.get('assigned')
-    #     solution = request.POST.get('solution')
-    #     status = request.POST.get('status')
-    #
-    #     supports = Support(
-    #         name=name,
-    #         extension=extension,
-    #         department=department,
-    #         summary=summary,
-    #         category=category,
-    #         assigned=assigned,
-    #         solution=solution,
-    #         status=status,
-    #     )
-    #     supports.save()
-    # messages.success(request, "Task added successfully")
-    # return redirect('index')
 
 
 def Edit(request):
@@ -205,36 +184,6 @@ def Update(request, pk):
     }
     return render(request, 'crud/update_task.html', context)
 
-    # if request.user.is_staff:
-    #     if request.method == "POST":
-    #         name = request.POST.get('name')
-    #         extension = request.POST.get('extension')
-    #         department = request.POST.get('department')
-    #         summary = request.POST.get('summary')
-    #         category = request.POST.get('category')
-    #         assigned = request.POST.get('assigned')
-    #         solution = request.POST.get('solution')
-    #         status = request.POST.get('status')
-    #
-    #         supports = Support(
-    #
-    #             id=id,
-    #             name=name,
-    #             extension=extension,
-    #             department=department,
-    #             summary=summary,
-    #             category=category,
-    #             assigned=assigned,
-    #             solution=solution,
-    #             status=status,
-    #         )
-    #         supports.save()
-    #     messages.success(request, "Task updated successfully")
-    #     return redirect('index')
-    # else:
-    #     messages.warning(request, "You are not authorized to make changes")
-    #     return redirect('/')
-
 
 def Delete(request, id):
     if request.user.is_superuser:
@@ -248,8 +197,8 @@ def Delete(request, id):
 
 
 def error_404(request, exception):
-        data = {}
-        return render(request, 'support/404.html', data)
+    data = {}
+    return render(request, 'support/404.html', data)
 
 
 def error_500(request, exception):

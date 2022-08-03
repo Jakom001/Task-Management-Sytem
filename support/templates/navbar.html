@@ -1,91 +1,166 @@
+{% load static i18n %}
 
-	{% block main %}
-<!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <!-- Container wrapper -->
-  <div class="container-fluid">
-    <!-- Toggle button -->
-    <button
-      class="navbar-toggler"
-      type="button"
-      data-mdb-toggle="collapse"
-      data-mdb-target="#navbarSupportedContent"
-      aria-controls="navbarSupportedContent"
-      aria-expanded="false"
-      aria-label="Toggle navigation"
-    >
-      <i class="fas fa-bars"></i>
-    </button>
+ {% if user.is_authenticated %}
+{% block main %}
 
-    <!-- Collapsible wrapper -->
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <!-- Navbar brand -->
-      <a class="navbar-brand mt-2 mt-lg-0" href="#">
+<!--Main Navigation-->
+<header>
+<!--Main Navigation-->
+          <header>
+            <!-- Sidebar -->
+            <nav id="sidebarMenu" class="collapse d-lg-block sidebar collapse bg-white scrollbar">
+              <div class="position-sticky">
+                <div class="list-group list-group-flush mx-3 mt-4">
+                     <a
+           href="#"
+           class="list-group-item list-group-item-action py-3 ripple"
+           aria-current="true"
+           >
+          <i class="fas fa-tachometer-alt fa-fw me-3"></i
+            ><span>Main dashboard</span>
+        </a>
+                  <!-- Collapse 1 -->
+                  <a class="list-group-item list-group-item-action py-3 ripple" aria-current="true"
+                    data-mdb-toggle="collapse" href="#collapseExample1" aria-expanded="true"
+                    aria-controls="collapseExample1">
+                      <i class="fas fa-tachometer-alt fa-fw me-3"></i><span>Task  <i class="fas fa-caret-down float-right "></i></span>
+                  </a>
+                  <!-- Collapsed content -->
+                  <ul id="collapseExample1" class="collapse  list-group list-group-flush">
+                    <li class="list-group-item py-3">
+                      <a href="" class="text-reset">New</a>
+                    </li>
+                    <li class="list-group-item py-3">
+                      <a href="" class="text-reset">Completed</a>
+                    </li>
+                    <li class="list-group-item py-3">
+                      <a href="" class="text-reset">Review</a>
+                    </li>
+                  </ul>
+                  <!-- Collapse 1 -->
+
+                  <!-- Collapse 2 -->
+                  <a class="list-group-item list-group-item-action py-2 ripple" aria-current="true"
+                    data-mdb-toggle="collapse" href="#collapseExample2" aria-expanded="true"
+                    aria-controls="collapseExample2">
+                    <i class="fas fa-chart-area fa-fw me-3 "></i><span>Add Equipment <i class="fas fa-caret-down float-right "></i></span>
+                  </a>
+                  <!-- Collapsed content -->
+                  <ul id="collapseExample2" class="collapse list-group list-group-flush">
+                    <li class="list-group-item py-3">
+                      <a href="" class="text-reset">Switch</a>
+                    </li>
+                    <li class="list-group-item py-3">
+                      <a href="" class="text-reset">CCTV</a>
+                    </li>
+                    <li class="list-group-item py-3">
+                      <a href="" class="text-reset">WIFI</a>
+                    </li>
+                    <li class="list-group-item py-3">
+                      <a href="" class="text-reset">Router</a>
+                    </li>
+                  </ul>
+                  <!-- Collapse 2 -->
+
+        <a
+           href="#"
+           class="list-group-item list-group-item-action py-3 ripple"
+           ><i class="fas fa-chart-line fa-fw me-3"></i
+          ><span>Reports</span></a
+          >
+
+        <a
+           href="#"
+           class="list-group-item list-group-item-action py-3 ripple"
+           ><i class="fas fa-users fa-fw me-3"></i><span>Users</span></a
+          >
+        <a
+           href="{% url 'logout' %}"
+           class="list-group-item list-group-item-action py-3 ripple"
+           ><i class="fas fa-sign-out-alt fa-fw me-3"></i><span>Logout</span></a
+          >
+                </div>
+              </div>
+            </nav>
+            <!-- Sidebar -->
+                </br></br>
+  <!-- Navbar -->
+  <nav
+       id="main-navbar"
+       class="navbar navbar-expand-lg navbar-light bg-white fixed-top" style="height:70px;"
+       >
+    <!-- Container wrapper -->
+    <div class="container-fluid">
+      <!-- Toggle button -->
+      <button
+              class="navbar-toggler"
+              type="button"
+              data-mdb-toggle="collapse"
+              data-mdb-target="#sidebarMenu"
+              aria-controls="sidebarMenu"
+              aria-expanded="false"
+              aria-label="Toggle navigation"
+              >
+        <i class="fas fa-bars"></i>
+      </button>
+
+      <!-- Brand -->
+      <a class="navbar-brand" href="/">
         <img
-          src="https://mdbcdn.b-cdn.net/img/logo/mdb-transaprent-noshadows.webp"
-          height="15"
-          alt="MDB Logo"
-          loading="lazy"
-        />
+             src="{% static 'images/knh_logo.png' %}"
+             height="35"
+             alt=""
+             loading="lazy"
+             />
       </a>
-      <!-- Left links -->
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+      <!-- Search form -->
+      <a class="navbar-brand" href="/">ICT TASK MONITOR</a>
+
+      <!-- Right links -->
+      <ul class="navbar-nav ms-auto d-flex flex-row">
         <li class="nav-item">
-          <a class="nav-link" href="#">Dashboard</a>
+          <a class="nav-link me-3" href="/">Home</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Team</a>
+         <li class="nav-item">
+          <a class="nav-link me-3" href="#">{{ user.username }}</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Projects</a>
+
+
+        <!-- Avatar -->
+        <li class="nav-item dropdown">
+          <a
+             class="nav-link dropdown-toggle hidden-arrow d-flex align-items-center"
+             href="#"
+             id="navbarDropdownMenuLink"
+             role="button"
+             data-mdb-toggle="dropdown"
+             aria-expanded="false"
+             >
+            <img
+                 src="{% static 'images/default.png' %}"
+                 class="rounded-circle"
+                 height="22"
+                 alt=""
+                 loading="lazy"
+                 />
+          </a>
+          <ul
+              class="dropdown-menu dropdown-menu-end"
+              aria-labelledby="navbarDropdownMenuLink"
+              >
+            <li><a class="dropdown-item" href="#"><i class="fas fa-cog"></i> My profile</a></li>
+            <li><a class="dropdown-item" href="#"><i class="fas fa-cog"></i> Settings</a></li>
+            <li><a class="dropdown-item" href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+          </ul>
         </li>
       </ul>
-      <!-- Left links -->
     </div>
-    <!-- Collapsible wrapper -->
-
-    <!-- Right elements -->
-    <div class="d-flex align-items-center">
-      <!-- Icon -->
-      <!-- Avatar -->
-     <ul class="navbar-nav" style="padding-right:40px">
-      <!-- Avatar -->
-      <li class="nav-item dropdown">
-        <a
-          class="nav-link dropdown-toggle d-flex align-items-center"
-          href="#"
-          id="navbarDropdownMenuLink"
-          role="button"
-          data-mdb-toggle="dropdown"
-          aria-expanded="false"
-        >
-          <img
-            src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img (31).webp"
-            class="rounded-circle"
-            height="22"
-            alt="Portrait of a Woman"
-            loading="lazy"
-          />
-        </a>
-        <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <li>
-            <a class="dropdown-item" href="#">My profile</a>
-          </li>
-          <li>
-            <a class="dropdown-item" href="#">Settings</a>
-          </li>
-          <li>
-            <a class="dropdown-item" href="#">Logout</a>
-          </li>
-        </ul>
-      </li>
-    </ul>
+    <!-- Container wrapper -->
+  </nav>
+  <!-- Navbar -->
+</header>
+<!--Main Navigation-->
 
 
-    </div>
-    <!-- Right elements -->
-  </div>
-  <!-- Container wrapper -->
-</nav>
-<!-- Navbar -->
-{%endblock%}
+{% endblock %}
+{% endif %}

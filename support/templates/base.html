@@ -4,7 +4,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1, shrink-to-fit=no">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="HandheldFriendly" content="true">
 <!--    <meta http-equiv="x-ua-compatible" content="ie=edge">-->
@@ -39,101 +39,15 @@
 
 </head>
 <body>
-{% if user.is_authenticated %}
-<nav class="navbar navbar-expand-lg navbar-light bg-light" style="height:70px;">
-  <!-- Container wrapper -->
-  <div class="container-fluid">
-    <!-- Toggle button -->
-    <button
-      class="navbar-toggler"
-      type="button"
-      data-mdb-toggle="collapse"
-      data-mdb-target="#navbarSupportedContent"
-      aria-controls="navbarSupportedContent"
-      aria-expanded="false"
-      aria-label="Toggle navigation"
-    >
-      <i class="fas fa-bars"></i>
-    </button>
 
-    <!-- Collapsible wrapper -->
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <!-- Navbar brand -->
-      <a class="navbar-brand mt-2 mt-lg-0" href="/">
-        <img
-          src="{% static 'images/knh_logo.png' %}"
-          height="45"
-          alt="Knh Logo"
-          loading="lazy"
-        />
-      </a>
-
-      <!-- Left links -->
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li><a class="navbar-brand" href="#">ICT TASK MONITOR</a></li>
-        <li class="nav-item">
-          <a class="nav-link" href="/">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#"></a>
-        </li>
-      </ul>
-      <!-- Left links -->
-    </div>
-    <!-- Collapsible wrapper -->
-
-    <!-- Right elements -->
-    <div class="d-flex align-items-center">
-      <!-- Icon -->
-      <!-- Avatar -->
-     <ul class="navbar-nav" style="padding-right:40px">
-      <!-- Avatar -->
-      <li class="nav-item dropdown">
-        <a
-          class="nav-link dropdown-toggle d-flex align-items-center"
-          href="#"
-          id="navbarDropdownMenuLink"
-          role="button"
-          data-mdb-toggle="dropdown"
-          aria-expanded="false"
-        >
-          <img
-            src="{% static 'images/default.png' %}"
-            class="rounded-circle"
-            height="22"
-            alt="Profile image"
-            loading="lazy"
-          />
-        </a>
-        <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <li>
-            <a class="dropdown-item" href="#">My profile</a>
-          </li>
-          <li>
-            <a class="dropdown-item" href="{%url 'change_password' %}">Settings</a>
-          </li>
-          <li>
-            <a class="dropdown-item" href="{%url 'logout' %}">Logout</a>
-          </li>
-        </ul>
-      </li>
-    </ul>
-
-    </div>
-  </div>
-    <!-- Right elements -->
-  </div>
-  <!-- Container wrapper -->
-</nav>
-  {% endif %}
-
-
+{% include 'navbar.html' %}
 
  {% include 'messages.html' %}
-       
+       <main style="margin-top: 58px">
+  <div class="container pt-4">
             {% block main %}
             {% endblock %}
-      
+  </div>
  <script>
 var message_tag = document.getElementById("message_box");
 setTimeout(function(){

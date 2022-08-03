@@ -1,0 +1,1 @@
+web: gunicorn ictproject.wsgi --log-file -
