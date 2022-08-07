@@ -1,10 +1,8 @@
+from django.contrib.auth import views as auth_views
 from django.contrib.auth.views import PasswordResetView
 from django.urls import path
-from django.contrib.auth import views as auth_views
-from . import views
 
 from . import views
-from .forms import CustomEmailValidationOnForgotPassword
 from .views import PasswordChangeView
 
 urlpatterns = [
@@ -26,6 +24,8 @@ urlpatterns = [
          auth_views.PasswordResetCompleteView.as_view(template_name='registration/password_reset_complete.html'),
          name='password_reset_complete'),
     path('password_success', views.password_success, name="password_success"),
+    path('profile/', views.profile, name='profile'),
+    path('profile_update/', views.profile_update, name='profile_update'),
     # path('password-reset/',
     #      'django.contrib.auth.views.password_reset',
     #      {'post_reset_redirect': '/user/password/reset/done/',

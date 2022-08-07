@@ -21,21 +21,18 @@ from django.urls import path, include
 from support import views
 
 urlpatterns = [
-    path('admin/', admin.site.urls, name='admin'),
-    path("", views.index, name='index'),
-    path('', include('support.urls')),
-    path('', include('django.contrib.auth.urls')),
-    path('', include('members.urls')),
+                  path('admin/', admin.site.urls, name='admin'),
+                  path("", views.index, name='index'),
+                  path('', include('support.urls')),
+                  path('', include('django.contrib.auth.urls')),
+                  path('', include('members.urls')),
 
-]
+              ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-if settings.DEBUG:
-    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 admin.site.site_header = "KNH ICT Admin"
 admin.site.site_title = "KNH ICT Admin Portal"
 admin.site.index_title = "Welcome to KNH ICT Support Portal"
-
 
 # handler404 = 'support.views.error_404'
 # handler500 = 'support.views.error_500'

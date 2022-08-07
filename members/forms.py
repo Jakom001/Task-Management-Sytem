@@ -3,12 +3,10 @@ import email
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm, PasswordResetForm, AuthenticationForm
 from django.contrib.auth.models import User
-
 # Create your forms here.
 from django.core.exceptions import ValidationError
-from django.forms import ModelForm
 
-from support.models import Support
+from members.models import Profile
 
 
 class UserLoginForm(AuthenticationForm):
@@ -104,3 +102,15 @@ class PasswordChangingForm(PasswordChangeForm):
     class Meta:
         model = User
         fields = ("old_password", "new_password1", "new_password2")
+
+
+class UserUpdateForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['username', 'email']
+
+
+class ProfileUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ['phone_number', 'address', 'image']

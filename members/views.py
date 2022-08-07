@@ -14,7 +14,7 @@ from django.urls import reverse_lazy
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
 
-from .forms import NewUserForm, PasswordChangingForm
+from .forms import NewUserForm, PasswordChangingForm, UserUpdateForm, ProfileUpdateForm, UserCreationForm
 
 
 class PasswordChangeView(PasswordChangeView):
@@ -97,3 +97,30 @@ def password_reset_request(request):
     password_reset_form = PasswordResetForm()
     return render(request=request, template_name="registration/password_reset.html",
                   context={"password_reset_form": password_reset_form})
+
+
+def profile(request):
+    context = {
+
+    }
+    return render(request, 'registration/profile.html', context)
+
+
+def profile_update(request):
+    if request.method == 'POST':
+        user_form = UserUpdateForm(request.POST, instance=request.user)
+        profile_form = ProfileUpdateForm(
+            request.POST, request.FILES, instance=request.user.profile)
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
+            return redirect('profile')
+    else:
+        user_form = UserUpdateForm(instance=request.user)
+        profile_form = ProfileUpdateForm(instance=request.user.profile)
+
+    context = {
+        'user_form': user_form,
+        'profile_form': profile_form,
+    }
+    return render(request, 'registration/profile_update.html', context)
