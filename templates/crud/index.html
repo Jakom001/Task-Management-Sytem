@@ -1,9 +1,11 @@
 {% extends "base.html" %}
 {% load static i18n %}
+{% block title %}ICT Task Monitor{% endblock %}
 {% load crispy_forms_tags %}
 	{% block main %}
 
  {% include 'crud/task_counts.html' %}
+
 
 
 <div class="jumbotron">
@@ -12,92 +14,27 @@
             <h3 class="card-title text-center">ICT Task Table</h3>
             <hr>
               <div class="row">
-          <div class="col-xl-3 col-sm-6 col-12 mb-4">
-            <div class="card">
-              <div class="card-body">
-                <div class="d-flex justify-content-between px-md-1">
-                  <div class="align-self-center">
-                    <i class=""></i>
-                  </div>
-                  <div class="text-end">
-                    <h3></h3>
-                    <p class="mb-0"></p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-<!--          <div class="col-xl-3 col-sm-6 col-12 mb-4">-->
-<!--            <div class="card">-->
-<!--              <div class="card-body">-->
-<!--                <div class="d-flex justify-content-between px-md-1">-->
-<!--                  <div class="align-self-center">-->
-<!--                    <i class=" fa-3x"></i>-->
-<!--                  </div>-->
-<!--                  <div class="text-end">-->
-<!--                    <h3></h3>-->
-<!--                    <p class="mb-0"></p>-->
-<!--                  </div>-->
-<!--                </div>-->
-<!--              </div>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--          <div class="col-xl-3 col-sm-6 col-12 mb-4">-->
-<!--            <div class="card">-->
-<!--              <div class="card-body">-->
-<!--                <div class="d-flex justify-content-between px-md-1">-->
-<!--                  <div class="align-self-center">-->
-<!--                    <i class=""></i>-->
-<!--                  </div>-->
-<!--                  <div class="text-end">-->
-<!--                    <h3></h3>-->
-<!--                    <p class="mb-0"></p>-->
-<!--                  </div>-->
-<!--                </div>-->
-<!--              </div>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--          <div class="col-xl-3 col-sm-6 col-12 mb-4">-->
-<!--            <div class="card">-->
-<!--              <div class="card-body">-->
-<!--                <div class="d-flex justify-content-between px-md-1">-->
-<!--                  <div class="align-self-center">-->
-<!--                    <i class="fa-solid fa-plus text-success fa-3x"></i>-->
-<!--                  </div>-->
-<!--                  <div class="text-end">-->
-<!--                    <h3>Add</h3>-->
-<!--                    <p class="mb-0">New Tasks</p>-->
-<!--                  </div>-->
-<!--                </div>-->
-<!--              </div>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--            <hr>-->
-
-
-            <div class="row">
-                <div class="col-md-6">
+                  <div class="col-md-6">
                     <div class="dropdown">
-                         <button
-                            class="btn btn-primary dropdown-toggle"
-                            type="button"
-                            id="dropdownMenuButton"
-                            data-mdb-toggle="dropdown"
-                            aria-expanded="false">
-                              <i class="fas fa-download"></i> Download Tasks
-                         </button>
-                              <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <li><a class="dropdown-item" href="{% url 'task_csv' %}">CSV</a></li>
-                                <li><a class="dropdown-item" href="{% url 'task_pdf' %}">PDF</a></li>
-                                <li><a class="dropdown-item" href="{% url 'task_text' %}">Text</a></li>
-                              </ul>
+                      <button
+                        class="btn btn-primary dropdown-toggle"
+                        type="button"
+                        id="dropdownMenuButton"
+                        data-mdb-toggle="dropdown"
+                        aria-expanded="false"
+                      >
+                        Dropdown Task
+                      </button>
+                      <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <li><a class="dropdown-item" href="{% url 'task_pdf' %}">PDF</a></li>
+                        <li><a class="dropdown-item" href="{% url 'task_csv' %}">CSV File</a></li>
+                        <li><a class="dropdown-item" href="{% url 'task_text' %}">Text File</a></li>
+                      </ul>
                     </div>
-            </div>
-            <div class="col-md-6 text-end">
-                <button class="btn btn-primary btn-lg" data-mdb-toggle="modal" data-mdb-target="#add_task" role="button" >Add Task</button>
-        <!--       <button class="btn btn-success badge rounded-pill badge-success"data-mdb-toggle="modal" data-mdb-target="#add_task" style="width: 150px;">Add New</button>-->
-            </div>
+                  </div>
+                    <div class="col-md-6 text-end">
+                        <button class="btn btn-primary " data-mdb-toggle="modal" data-mdb-target="#add_task" role="button" >Add Task</button>
+                    </div>
           </div>
             <br>
     <div class="table-responsive">
@@ -120,9 +57,9 @@
                     <th>Assigned</th>
                     <th>Solution</th>
                     <th>Status</th>
-					{% if user.is_staff %}
+
                     <th>Actions</th>
-					{% endif %}
+
             </tr>
         </thead>
         <tbody>
@@ -144,15 +81,9 @@
 							 <td>{{ support.assigned }}</td>
 							 <td>{{ support.solution }}</td>
 							 <td>{{ support.status }}</td>
-                                 {% if user.is_staff %}
                                 <td>
-
-<!--                                     <button class="btn btn-info btn-sm mr-2 show-form-update" data-url="{% url 'update' support.id %}">-->
-<!--                                     <i class="fas fa-pencil-alt"></i>-->
-<!--                                      </button>-->
-<!--                                    <a class="btn btn-info btn-sm mr-2"  href="{% url 'update' support.id %}">Edit</a>-->
                                     <a href="{% url 'update' support.id %}" class="edit btn btn-info btn-sm mr-2" data-target="#modal" data-toggle="modal"><i class="fas fa-pencil-alt"></i></a>
-                                    {% endif %}
+
                                     {% if user.is_superuser %}
                                     <a href="#delete_task-{{forloop.counter}}" class="btn btn-danger btn-sm mr-2 delete" data-mdb-toggle="modal" data-toggle="tooltip"><i class="fas fa-trash-alt"></i></a>
 
@@ -163,7 +94,6 @@
         </tbody>
     </table>
     </div>
-</div>
      </div>
 </div>
 
@@ -258,14 +188,7 @@
 
 
 
-<footer class="bg-light text-center text-lg-start">
-  <!-- Copyright -->
-  <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
-    © 2022 Copyright:
-    <a class="text-dark" href="/">KNH.com</a>
-  </div>
-  <!-- Copyright -->
-</footer>
+
 
 
 {% endblock %}

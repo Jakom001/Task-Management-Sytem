@@ -18,17 +18,18 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 
+
 from support import views
 
 urlpatterns = [
                   path('admin/', admin.site.urls, name='admin'),
                   path("", views.index, name='index'),
                   path('', include('support.urls')),
-                  path('', include('django.contrib.auth.urls')),
+                  # path('', include('django.contrib.auth.urls')),
                   path('', include('members.urls')),
 
-              ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
+              ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 admin.site.site_header = "KNH ICT Admin"
 admin.site.site_title = "KNH ICT Admin Portal"

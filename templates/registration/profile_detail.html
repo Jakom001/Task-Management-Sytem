@@ -3,6 +3,7 @@
 {% block title %}Profile page{% endblock %}
 
 {% block main %}
+
 <div class="row my-4">
     <div class="col-md-4"></div>
     <div class="col-md-8">
@@ -15,41 +16,39 @@
                     <table class="table table-borderless">
                         <thead>
                             <span class="h4">Profile Information</span class="h4">
-                            <a class="btn btn-info btn-sm float-right" href="{% url 'profile_update' %}">Edit</a>
-                            <hr>
+                           <hr>
                         </thead>
                         <tbody>
                             <tr>
-                                <th scope="row">Username</th>
-                                <td>{{ user.username }}</td>
+                                <th>Username</th>
+                                <td>{{ the_profile.username }}</td>
                             </tr>
                             <tr>
-                                <th scope="row">First Name</th>
-                                <td>{{ user.first_name }}</td>
+                                <th>First Name</th>
+                                <td>{{ the_profile.first_name }}</td>
                             </tr>
                             <tr>
-                                <th scope="row">Last Name</th>
-                                <td>{{ user.last_name }}</td>
+                                <th>Last Name</th>
+                                <td>{{ the_profile.last_name }}</td>
                             </tr>
                             <tr>
-                                <th scope="row">Email</th>
-                                <td>{{ user.email }}</td>
+                                <th>Email</th>
+                                <td>{{ the_profile.email }}</td>
                             </tr>
                             <tr>
-                                <th scope="row">Phone</th>
-                                <td>{{user.profile.phone_number}}</td>
+                                <th>Phone</th>
+                                <td>{{the_profile.profile.phone_number}}</td>
                             </tr>
                             <tr>
-                                <th scope="row">Address</th>
-                                <td>{{user.profile.address}}</td>
+                                <th>Address</th>
+                                <td>{{the_profile.profile.address}}</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
                  <div class="col-md-4">
-                    <img class="img-thumbnail" src="{{ user.profile.image.url }}" alt="profile-image">
+                    <img class="img-thumbnail" src="{{ the_profile.profile.image.url }}" alt="profile-image">
                 </div>
-                <p> <a href="{% url 'change_password' %}">Change Your Password</a> </p>
             </div>
         </div>
     </div>

@@ -1,10 +1,10 @@
 import csv
 import datetime
 import tempfile
-import helpers
-from django.db.models import Q, Count
+
 from django.contrib import messages
 from django.contrib.auth.models import User
+from django.db.models import Q, Count
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
@@ -15,26 +15,11 @@ from .forms import UserForm, EditForm
 from .models import Support
 
 
-def search_task(request):
-    if request.method == "POST":
-        searched = request.POST['searched']
-        supports = Support.objects.filter(name__contains=searched)
-
-        return render(request,
-                      'search_task.html',
-                      {'searched': searched,
-                       'supports': supports})
-    else:
-        return render(request,
-                      'search_task.html',
-                      {})
-
-
 # Generate a PDF File Venue List
 def task_pdf(request):
     """Generate pdf."""
     # Model data
-    supports = Support.objects.filter(pk__lte=200).order_by('-id')
+    supports = Support.objects.filter(pk__lte=200, owner=request.user).order_by('-id')
 
     # Rendered
     html_string = render_to_string('task/pdf_output.html', {'supports': supports})
@@ -64,7 +49,7 @@ def task_csv(request):
 
     # Designate The Model
 
-    tasks = Support.objects.all().order_by('-id')
+    tasks = Support.objects.filter(owner=request.user).order_by('-id')
 
     # Add column headings to the csv file
     writer.writerow(
@@ -85,7 +70,7 @@ def task_text(request):
     response = HttpResponse(content_type='text/plain')
     response['Content-Disposition'] = 'attachment; filename=task.txt'
     # Designate The Model
-    tasks = Support.objects.all()
+    tasks = Support.objects.filter(owner=request.user).order_by('-id')
 
     # Create blank list
     lines = []
@@ -107,6 +92,7 @@ def task_text(request):
 def networking(request):
     if request.method == "POST":
         form = UserForm(request.POST)
+        form.instance.owner = request.user
         if form.is_valid():
             form.save()
             messages.success(request, 'User form request submitted successfully.')
@@ -134,22 +120,26 @@ def index(request):
         section3_count=Count('status', filter=Q(status='Review')),
 
     )
-    supports = Support.objects.all().order_by('-id')
+    supports = Support.objects.filter(owner=request.user).order_by('-id')
 
     # pagination set up
     # p = Paginator(Support.objects.all().order_by('-id'), 10)
     # page = request.GET.get('page')
     # mytask = p.get_page(page)
+    context = {
+        'supports': supports,
+        'task_count': task_count,
+        'user_count': user_count,
 
-    return render(request, 'crud/index.html', {'supports': supports,
-                                               'task_count': task_count,
-                                               'user_count': user_count
-                                               })
+    }
+
+    return render(request, 'crud/index.html', context)
 
 
 def add_task(request):
     if request.method == "POST":
         form = UserForm(request.POST)
+        form.instance.owner = request.user
         if form.is_valid():
             form.save()
             messages.success(request, 'User form request submitted successfully.')
@@ -162,35 +152,33 @@ def add_task(request):
     return render(request, 'crud/index.html', {'form': form})
 
 
-def Edit(request):
-    supports = Support.objects.all()
-    context = {
-        supports: supports,
-    }
-    return redirect(request, 'crud/index.html', context)
-
-
 def Update(request, pk):
     supports = Support.objects.get(id=pk)
-    if request.method == 'POST':
-        form = EditForm(request.POST, instance=supports)
-        if form.is_valid():
-            form.save()
-            return redirect('index')
+    if request.user == supports.owner:
+        if request.method == 'POST':
+            form = EditForm(request.POST, instance=supports)
+            if form.is_valid():
+                form.save()
+                return redirect('index')
+        else:
+            form = EditForm(instance=supports)
+        context = {
+            'form': form,
+        }
+        return render(request, 'crud/update_task.html', context)
+
     else:
-        form = EditForm(instance=supports)
-    context = {
-        'form': form,
-    }
-    return render(request, 'crud/update_task.html', context)
+        messages.warning(request, "You are not authorized to make such operations")
+        return redirect('/')
 
 
 def Delete(request, id):
+    supports = Support.objects.filter(id=id)
     if request.user.is_superuser:
-        supports = Support.objects.filter(id=id)
         supports.delete()
         messages.warning(request, "Task deleted successfully")
         return redirect('index')
+
     else:
         messages.warning(request, "You are not authorized for such operations")
         return redirect('/')

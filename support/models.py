@@ -18,9 +18,10 @@ class Support(models.Model):
         ("Data/Files", 'Data/Files'),
 
     )
-
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, null=True, editable=False)
     name = models.CharField('Name (User)', max_length=255)
-    date_created = models.DateTimeField('Date', auto_now_add=True, null=True)
+    date_created = models.DateTimeField('Date_created', auto_now_add=True, null=True)
+    date_modified = models.DateTimeField(auto_now=True)
     extension = models.IntegerField('Extension')
     department = models.CharField('Department', max_length=255)
     category = models.CharField(choices=Category, max_length=120, default='Network')
@@ -35,9 +36,10 @@ class Support(models.Model):
 
     def save(self, *args, **kwargs):
         ''' On save, update timestamps '''
-        self.date_created = timezone.now()
+        if not self.id:
+            self.date_created = timezone.now()
+        self.date_modified = timezone.now()
         return super(Support, self).save(*args, **kwargs)
-
 
     def __str__(self):
         return self.name

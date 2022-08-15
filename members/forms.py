@@ -45,11 +45,6 @@ class NewUserForm(UserCreationForm):
         "type": "email",
     }), required=True)
 
-    phone_number = forms.CharField(widget=forms.TextInput(attrs={
-        "class": "form-control",
-        "type": "text",
-    }))
-
     password1 = forms.CharField(widget=forms.TextInput(attrs={
         "class": "form-control",
         "type": "password",
@@ -62,7 +57,7 @@ class NewUserForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ("username", "first_name", "last_name", "email", 'phone_number', "password1", "password2")
+        fields = ("username", "first_name", "last_name", "email", "password1", "password2")
 
     def save(self, commit=True):
         user = super(NewUserForm, self).save(commit=False)
@@ -70,15 +65,6 @@ class NewUserForm(UserCreationForm):
         if commit:
             user.save()
         return user
-
-
-class CustomEmailValidationOnForgotPassword(PasswordResetForm):
-    def clean_email(self):
-        email_id = self.cleaned_data['email']
-        if not User.objects.filter(email__iexact=email_id, is_active=True).exists():
-            raise ValidationError("Email invalid!")
-
-        return email
 
 
 class PasswordChangingForm(PasswordChangeForm):

@@ -12,68 +12,69 @@
               <div class="position-sticky">
                 <div class="list-group list-group-flush mx-3 mt-4">
                      <a
-           href="#"
+           href="/"
            class="list-group-item list-group-item-action py-3 ripple"
            aria-current="true"
            >
           <i class="fas fa-tachometer-alt fa-fw me-3"></i
             ><span>Main dashboard</span>
         </a>
-                  <!-- Collapse 1 -->
-                  <a class="list-group-item list-group-item-action py-3 ripple" aria-current="true"
-                    data-mdb-toggle="collapse" href="#collapseExample1" aria-expanded="true"
-                    aria-controls="collapseExample1">
-                      <i class="fas fa-tachometer-alt fa-fw me-3"></i><span>Task  <i class="fas fa-caret-down float-right "></i></span>
-                  </a>
-                  <!-- Collapsed content -->
-                  <ul id="collapseExample1" class="collapse  list-group list-group-flush">
-                    <li class="list-group-item py-3">
-                      <a href="" class="text-reset">New</a>
-                    </li>
-                    <li class="list-group-item py-3">
-                      <a href="" class="text-reset">Completed</a>
-                    </li>
-                    <li class="list-group-item py-3">
-                      <a href="" class="text-reset">Review</a>
-                    </li>
-                  </ul>
-                  <!-- Collapse 1 -->
+<!--                  &lt;!&ndash; Collapse 1 &ndash;&gt;-->
+<!--                  <a class="list-group-item list-group-item-action py-3 ripple" aria-current="true"-->
+<!--                    data-mdb-toggle="collapse" href="#collapseExample1" aria-expanded="true"-->
+<!--                    aria-controls="collapseExample1">-->
+<!--                      <i class="fas fa-tachometer-alt fa-fw me-3"></i><span>Task  <i class="fas fa-caret-down float-right "></i></span>-->
+<!--                  </a>-->
+<!--                  &lt;!&ndash; Collapsed content &ndash;&gt;-->
+<!--                  <ul id="collapseExample1" class="collapse  list-group list-group-flush">-->
+<!--                    <li class="list-group-item py-3">-->
+<!--                      <a href="" class="text-reset">New</a>-->
+<!--                    </li>-->
+<!--                    <li class="list-group-item py-3">-->
+<!--                      <a href="" class="text-reset">Completed</a>-->
+<!--                    </li>-->
+<!--                    <li class="list-group-item py-3">-->
+<!--                      <a href="" class="text-reset">Review</a>-->
+<!--                    </li>-->
+<!--                  </ul>-->
+<!--                  &lt;!&ndash; Collapse 1 &ndash;&gt;-->
 
-                  <!-- Collapse 2 -->
-                  <a class="list-group-item list-group-item-action py-2 ripple" aria-current="true"
-                    data-mdb-toggle="collapse" href="#collapseExample2" aria-expanded="true"
-                    aria-controls="collapseExample2">
-                    <i class="fas fa-chart-area fa-fw me-3 "></i><span>Add Equipment <i class="fas fa-caret-down float-right "></i></span>
-                  </a>
-                  <!-- Collapsed content -->
-                  <ul id="collapseExample2" class="collapse list-group list-group-flush">
-                    <li class="list-group-item py-3">
-                      <a href="" class="text-reset">Switch</a>
-                    </li>
-                    <li class="list-group-item py-3">
-                      <a href="" class="text-reset">CCTV</a>
-                    </li>
-                    <li class="list-group-item py-3">
-                      <a href="" class="text-reset">WIFI</a>
-                    </li>
-                    <li class="list-group-item py-3">
-                      <a href="" class="text-reset">Router</a>
-                    </li>
-                  </ul>
-                  <!-- Collapse 2 -->
+<!--                  &lt;!&ndash; Collapse 2 &ndash;&gt;-->
+<!--                  <a class="list-group-item list-group-item-action py-2 ripple" aria-current="true"-->
+<!--                    data-mdb-toggle="collapse" href="#collapseExample2" aria-expanded="true"-->
+<!--                    aria-controls="collapseExample2">-->
+<!--                    <i class="fas fa-chart-area fa-fw me-3 "></i><span>Add Equipment <i class="fas fa-caret-down float-right "></i></span>-->
+<!--                  </a>-->
+<!--                  &lt;!&ndash; Collapsed content &ndash;&gt;-->
+<!--                  <ul id="collapseExample2" class="collapse list-group list-group-flush">-->
+<!--                    <li class="list-group-item py-3">-->
+<!--                      <a href="" class="text-reset">Switch</a>-->
+<!--                    </li>-->
+<!--                    <li class="list-group-item py-3">-->
+<!--                      <a href="" class="text-reset">CCTV</a>-->
+<!--                    </li>-->
+<!--                    <li class="list-group-item py-3">-->
+<!--                      <a href="" class="text-reset">WIFI</a>-->
+<!--                    </li>-->
+<!--                    <li class="list-group-item py-3">-->
+<!--                      <a href="" class="text-reset">Router</a>-->
+<!--                    </li>-->
+<!--                  </ul>-->
+<!--                  &lt;!&ndash; Collapse 2 &ndash;&gt;-->
 
+<!--        <a-->
+<!--           href="#"-->
+<!--           class="list-group-item list-group-item-action py-3 ripple"-->
+<!--           ><i class="fas fa-chart-line fa-fw me-3"></i-->
+<!--          ><span>Reports</span></a-->
+<!--          >-->
+    {% if user.is_staff %}
         <a
-           href="#"
-           class="list-group-item list-group-item-action py-3 ripple"
-           ><i class="fas fa-chart-line fa-fw me-3"></i
-          ><span>Reports</span></a
-          >
-
-        <a
-           href="#"
+           href="{% url 'users'  %}"
            class="list-group-item list-group-item-action py-3 ripple"
            ><i class="fas fa-users fa-fw me-3"></i><span>Users</span></a
           >
+                    {% endif %}
         <a
            href="{% url 'logout' %}"
            class="list-group-item list-group-item-action py-3 ripple"
@@ -149,7 +150,7 @@
               aria-labelledby="navbarDropdownMenuLink"
               >
             <li><a class="dropdown-item" href="{% url 'profile' %}"><i class="fas fa-cog"></i> My profile</a></li>
-            <li><a class="dropdown-item" href="#"><i class="fas fa-cog"></i> Settings</a></li>
+<!--            <li><a class="dropdown-item" href="#"><i class="fas fa-cog"></i> Settings</a></li>-->
             <li><a class="dropdown-item" href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
           </ul>
         </li>

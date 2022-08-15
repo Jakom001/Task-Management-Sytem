@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block title %}staff Page{% endblock %}
+
+{% block main %}
+{% include 'crud/task_counts.html' %}
+{% if user.is_staff %}
+<div class="row">
+
+    <div class="col-md-12">
+        </br>
+        <p class="text-center fw-bolder"> Users</p>
+        <table id="task_table" class="table bg-white table-striped">
+            <thead class="bg-info table-light">
+                <tr>
+
+                    <th scope="col">First_name</th>
+                     <th scope="col">Last_name</th>
+                    <th scope="col">Username</th>
+                    <th scope="col">Email</th>
+                     <th scope="col">Phone Number</th>
+                     <th scope="col">Address</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for profile in profiles %}
+                <tr>
+                    <td>{{ profile.first_name }}</td>
+                    <td>{{ profile.last_name }}</td>
+                    <td>{{ profile.username }}</td>
+                    <td>{{ profile.email }}</td>
+                    <td>{{ profile.profile.phone_number }}</td>
+                    <td>{{ profile.profile.address }}</td>
+                    <th scope="row"><a class="btn btn-info btn-sm"
+                            href="{% url 'profile_detail' profile.id %}">View</a></th>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{%endif%}
+{% endblock %}
