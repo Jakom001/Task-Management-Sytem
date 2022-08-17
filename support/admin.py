@@ -4,9 +4,9 @@ from .models import Support
 
 class SupportAdmin(admin.ModelAdmin):
     fields = (
-        ('name', 'extension'), 'date_created', 'summary', 'assigned', 'category', 'solution', 'department', 'date_modified', 'owner',
-        'status')
-    list_display = ('id', 'name', 'date_created', 'summary', 'assigned', 'category', 'status')
+        ('name', 'extension'), 'date_created', 'summary', 'category', 'solution', 'department', 'date_modified', 'owner',
+        'status', 'priority')
+    list_display = ('id', 'name', 'date_created', 'summary', 'priority', 'category', 'status')
     ordering = ('-id',)
     readonly_fields = ('date_created', 'date_modified', 'owner')
     list_filter = ('date_created', 'category', 'status')

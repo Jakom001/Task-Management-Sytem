@@ -53,13 +53,13 @@ def task_csv(request):
 
     # Add column headings to the csv file
     writer.writerow(
-        ['Name', 'NO', 'Date', 'Extension', 'Department', 'Summary', 'category', 'assigned', 'solution', 'status'])
+        ['Name', 'NO', 'Date', 'Extension', 'Department', 'Summary', 'category', 'priority', 'solution', 'status'])
 
     # Loop Thu and output
     for task in tasks:
         writer.writerow(
             [task.name, task.id, task.date_created, task.extension, task.department, task.summary, task.category,
-             task.assigned,
+             task.priority,
              task.solution, task.status])
 
     return response
@@ -77,7 +77,7 @@ def task_text(request):
     # Loop Thu and output
     for task in tasks:
         lines.append(
-            f'{task.id}\n{task.name}\n{task.date_created}\n{task.extension}\n{task.department}\n{task.summary}\n{task.category}\n{task.assigned}\n{task.solution}\n{task.status}\n\n\n')
+            f'{task.id}\n{task.name}\n{task.date_created}\n{task.extension}\n{task.department}\n{task.summary}\n{task.category}\n{task.priority}\n{task.solution}\n{task.status}\n\n\n')
 
     # lines = ["This is line 1\n",
     # "This is line 2\n",

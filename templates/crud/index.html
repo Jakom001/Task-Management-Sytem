@@ -54,7 +54,7 @@
                     <th>Department</th>
                     <th>Summary</th>
                     <th>Category</th>
-                    <th>Assigned</th>
+                    <th>Priority</th>
                     <th>Solution</th>
                     <th>Status</th>
 
@@ -78,7 +78,7 @@
 							 <td>{{ support.department }}</td>
 							 <td>{{ support.summary }}</td>
 							 <td>{{ support.category }}</td>
-							 <td>{{ support.assigned }}</td>
+							 <td>{{ support.priority }}</td>
 							 <td>{{ support.solution }}</td>
 							 <td>{{ support.status }}</td>
                                 <td>
@@ -126,10 +126,7 @@
             <label for="summary" class="col-form-label">Summary:</label>
             <textarea class="form-control" name="summary" id="summary" required></textarea>
           </div>
-            <div class="mb-3">
-            <label for="assigned" class="col-form-label">Assigned To:</label>
-            <input type="text" name="assigned" class="form-control" id="assigned" required/>
-          </div>
+
           <div class="mb-3">
             <label for="category" class="col-form-label">Category</label>
         <select class="form-select" name="category" id="category">
@@ -138,6 +135,15 @@
   					<option value="Computer">Computer</option>
 					<option value="Software">Software</option>
 					<option value="Data/Files">Data/Files</option>
+        </select>
+           </div>
+
+            <div class="mb-3">
+            <label for="priority" class="col-form-label">Priority:</label>
+        <select class="form-select" name="priority" id="priority">
+                    <option value="High">High</option>
+  					<option value="Medium">Medium</option>
+  					<option value="Low">Low</option>
         </select>
            </div>
 
