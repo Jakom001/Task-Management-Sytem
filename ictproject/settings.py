@@ -104,11 +104,11 @@ DATABASES = {
 #
 #         'ENGINE': 'django.db.backends.postgresql',
 #
-#         'NAME': 'ICT_TASK_MONITOR',
+#         'NAME': '',
 #
 #         'USER': 'postgres',
 #
-#         'PASSWORD': 'jakom001',
+#         'PASSWORD': 'your password
 #
 #         'HOST': 'localhost',
 #
