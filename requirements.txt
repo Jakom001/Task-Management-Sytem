@@ -14,6 +14,7 @@ django-filter==22.1
 django-htmx==1.13.0
 django-tables2==2.5.1
 fonttools==4.38.0
+gunicorn==20.1.0
 html5lib==1.1
 kiwisolver==1.4.4
 MarkupSafe==2.1.2
