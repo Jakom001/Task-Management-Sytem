@@ -1,0 +1,23 @@
+from django.db.models import Count
+from .models import Task
+
+# Count the number of tasks with the status "new"
+new_tasks = Task.objects.filter(status='new').count()
+
+# Count the number of tasks with the status "completed"
+completed_tasks = Task.objects.filter(status='completed').count()
+
+# Count the number of tasks with the status "review"
+review_tasks = Task.objects.filter(status='review').count()
+
+# Count the number of tasks with any status
+all_tasks = Task.objects.all().count()
+
+# Or 
+all_tasks = Task.objects.aggregate(count=Count('status'))['count']
+
+# Print the results
+print("New tasks: ", new_tasks)
+print("Completed tasks: ", completed_tasks)
+print("Review tasks: ", review_tasks)
+print("All tasks: ", all_tasks)

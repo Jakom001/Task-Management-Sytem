@@ -8,6 +8,8 @@ from django.db.models import Q, Count
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
+
+
 # pdf stuff
 from weasyprint import HTML
 
@@ -114,22 +116,43 @@ def index(request):
     # get Counts
     task_count = Support.objects.all().count
     user_count = User.objects.all().count
-    status_count = Support.objects.annotate(
-        section1_count=Count('status', filter=Q(status='NEW')),
-        section2_count=Count('status', filter=Q(status='Completed')),
-        section3_count=Count('status', filter=Q(status='Review')),
 
-    )
+    high_count = Support.objects.filter(priority='High').count()
+    medium_count = Support.objects.filter(priority='Medium').count()
+    low_count = Support.objects.filter(priority='Low').count()    
+
+    new_count = Support.objects.filter(status='New').count()
+    completed_count = Support.objects.filter(status='Completed').count()
+    review_count = Support.objects.filter(status='Review').count()    
+
+    status_list = ['New', 'Completed', 'Review']
+    status_number = [new_count, completed_count, review_count]
+
+    priority_list =['High', 'Medium', 'Low']
+    priority_number = [high_count, medium_count, low_count]
+
+
     supports = Support.objects.filter(owner=request.user).order_by('-id')
 
     # pagination set up
     # p = Paginator(Support.objects.all().order_by('-id'), 10)
     # page = request.GET.get('page')
     # mytask = p.get_page(page)
+
+
+
+
     context = {
         'supports': supports,
         'task_count': task_count,
         'user_count': user_count,
+        'new_count': new_count,
+        'completed_count': completed_count,
+        'review_count': review_count,
+        'status_list': status_list,
+        'status_number': status_number,
+        'priority_list': priority_list,
+        'priority_number': priority_number,
 
     }
 

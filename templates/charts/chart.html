@@ -1,0 +1,92 @@
+<div id="content-wrapper" style="padding-top: 105px">
+
+    <div class="container-fluid">
+
+        <!-- Breadcrumbs-->
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="">Dashboard</a>
+            </li>
+            <li class="breadcrumb-item active">Overview</li>
+        </ol>
+
+        <!-- Icon Cards-->
+        <div class="row">
+
+     <div class="col-sm-6">    
+    <canvas id="myChart1" width="300" height="200"></canvas>
+            <div>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  
+  <script>
+    var ctx = document.getElementById('myChart1').getContext('2d');
+  
+    var myChart1 = new Chart(ctx, {
+      type: 'pie',
+      data: {
+        labels: [{% for priority in priority_list %} '{{ priority }}', {% endfor %}],
+        datasets: [{
+          label: 'Priority',
+          data: [{% for number in priority_number %} '{{ number }}', {% endfor %}],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+  </script>
+  </div>
+</div>
+  
+
+<div class="col-sm-6">    
+    <canvas id="myChart2" width="300" height="200"></canvas>
+            <div>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  
+  <script>
+    var ctx = document.getElementById('myChart2');
+  
+    var myChart2 = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: [{% for status in status_list %} '{{ status }}', {% endfor %}],
+        datasets: [{
+          label: 'Status',
+          data: [{% for number in status_number %} '{{ number }}', {% endfor %}],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+  </script>
+  </div>
+</div> 
+
+
+</div>
+
+<br>
+<br>
+<br>
+
+
+<!-- end of static icon -->           
+        </div>
+        </div>
+        </div>

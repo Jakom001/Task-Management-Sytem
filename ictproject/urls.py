@@ -31,9 +31,9 @@ urlpatterns = [
 
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-admin.site.site_header = "KNH ICT Admin"
-admin.site.site_title = "KNH ICT Admin Portal"
-admin.site.index_title = "Welcome to KNH ICT Support Portal"
+admin.site.site_header = "Packflaw Admin"
+admin.site.site_title = "Packflaw Admin Portal"
+admin.site.index_title = "Welcome to Packflaw Support Portal"
 
 # handler404 = 'support.views.error_404'
 # handler500 = 'support.views.error_500'

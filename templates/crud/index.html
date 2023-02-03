@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% load static i18n %}
-{% block title %}ICT Task Monitor{% endblock %}
+{% block title %}Pacflaw Bug Tracker{% endblock %}
 {% load crispy_forms_tags %}
 	{% block main %}
 
@@ -11,7 +11,7 @@
 <div class="jumbotron">
     <div class="card">
         <div class="card-body">
-            <h3 class="card-title text-center">ICT Task Table</h3>
+            <h3 class="card-title text-center">Bug Table</h3>
             <hr>
               <div class="row">
                   <div class="col-md-6">
@@ -47,7 +47,7 @@
                         <label for="selectAll"></label>
                     </span>
                 </th>
-                    <th>No</th>
+                    <th>ID</th>
                     <th>Name</th>
                     <th>Date</th>
                     <th>Extension</th>
@@ -194,7 +194,7 @@
 
 
 
-
+{% include 'charts/chart.html' %}
 
 
 {% endblock %}
