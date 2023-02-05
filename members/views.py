@@ -16,7 +16,8 @@ from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
 
 from support.models import Support
-from .forms import NewUserForm, PasswordChangingForm, UserUpdateForm, ProfileUpdateForm
+from .models import Profile
+from .forms import NewUserForm, PasswordChangingForm, UserUpdateForm, ProfileUpdateForm, UserLoginForm
 
 
 class PasswordChangeView(PasswordChangeView):
@@ -69,6 +70,12 @@ def register_request(request):
         form = NewUserForm(request.POST)
         if form.is_valid():
             user = form.save()
+            phone_number = form.cleaned_data.get('phone_number')
+            # profile = Profile(user=user, phone_number=phone_number)
+            username = form.cleaned_data.get('username')
+            raw_password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=raw_password)
+
             login(request, user)
             messages.success(request, "Registration successful.")
             return redirect("/")
@@ -79,7 +86,7 @@ def register_request(request):
 
 def login_request(request):
     if request.method == "POST":
-        form = AuthenticationForm(request, data=request.POST)
+        form = UserLoginForm(request, data=request.POST)
         if form.is_valid():
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password')
@@ -92,7 +99,7 @@ def login_request(request):
                 messages.error(request, "Invalid username or password.")
         else:
             messages.error(request, "Invalid username or password.")
-    form = AuthenticationForm()
+    form = UserLoginForm()
     return render(request=request, template_name="registration/login.html", context={"login_form": form})
 
 

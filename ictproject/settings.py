@@ -204,3 +204,13 @@ AUTH_ADFS = {
 
     ],
 }
+
+
+
+
+# settings.py
+
+AUTHENTICATION_BACKENDS = [
+    'members.backends.EmailOrUsernameBackend',
+    # ...
+]

@@ -35,6 +35,8 @@ class Support(models.Model):
     solution = models.TextField('Solution/Remarks', max_length=500, default="")
     status = models.CharField(choices=Status, max_length=120, default='New')
     priority = models.CharField(choices=Priority, max_length=120, default='Medium')
+    # assigned_to = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, related_name='assigned_tasks', default='')
+
 
     class Meta:
         verbose_name_plural = 'Tasks'

@@ -13,13 +13,13 @@ class UserLoginForm(AuthenticationForm):
     def __init__(self, *args, **kwargs):
         super(UserLoginForm, self).__init__(*args, **kwargs)
 
-    username = forms.CharField(widget=forms.TextInput(attrs={
+    username = forms.CharField(label = "Email | Username", widget=forms.TextInput(attrs={
         "class": "input",
         "type": "text",
-        "placeholder": "enter username"
+        "placeholder": "enter Email or Username"
     }))
 
-    password = forms.CharField(widget=forms.TextInput(attrs={
+    password = forms.CharField(label = "Password", widget=forms.TextInput(attrs={
         "class": "input",
         "type": "password",
         "placeholder": "enter password"
@@ -45,19 +45,24 @@ class NewUserForm(UserCreationForm):
         "type": "email",
     }), required=True)
 
-    password1 = forms.CharField(widget=forms.TextInput(attrs={
+    phone_number = forms.CharField(label="Phone Number", widget=forms.TextInput(attrs={
+        "class": "form-control",
+        "type": "number",
+    }), required=True)
+
+    password1 = forms.CharField(label = "Password", widget=forms.TextInput(attrs={
         "class": "form-control",
         "type": "password",
     }))
 
-    password2 = forms.CharField(widget=forms.TextInput(attrs={
+    password2 = forms.CharField(label = "Confirm Password", widget=forms.TextInput(attrs={
         "class": "form-control",
         "type": "password",
     }))
 
     class Meta:
         model = User
-        fields = ("username", "first_name", "last_name", "email", "password1", "password2")
+        fields = ("username", "first_name", "last_name", "email", "phone_number", "password1", "password2")
 
     def save(self, commit=True):
         user = super(NewUserForm, self).save(commit=False)

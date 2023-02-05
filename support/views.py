@@ -132,7 +132,10 @@ def index(request):
     priority_number = [high_count, medium_count, low_count]
 
 
-    supports = Support.objects.filter(owner=request.user).order_by('-id')
+    # supports = Support.objects.filter(owner=request.user).order_by('-id')
+
+    supports = Support.objects.order_by('-id')
+
 
     # pagination set up
     # p = Paginator(Support.objects.all().order_by('-id'), 10)
