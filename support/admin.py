@@ -4,7 +4,7 @@ from .models import Support
 
 class SupportAdmin(admin.ModelAdmin):
     fields = (
-        ('name', 'extension'), 'date_created', 'summary', 'category', 'solution', 'department', 'date_modified', 'owner',
+        ('name', 'extension'), 'date_created', 'summary', 'category', 'assigned_to','solution', 'department', 'date_modified', 'owner',
         'status', 'priority')
     list_display = ('id', 'name', 'date_created', 'summary', 'priority', 'category', 'status')
     ordering = ('-id',)

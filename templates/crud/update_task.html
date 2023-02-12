@@ -6,17 +6,46 @@
 
 <div class="container shadow p-4 mb-3 bg-body rounded" style="max-width:40rem;margin:2rem auto;">
 	<div class="form-group">
-		   <h3>Edit Task</h3>
+		   <h3>Edit Ticket</h3>
 		<form method="POST">
 		{% csrf_token %}
-				 {{ form|crispy }}
+		<div class="form-row">
+			<div class="form_group col-md-6 mb-0">
+			  {{ form.name|as_crispy_field }}
+			</div>
+			<div class="form_group col-md-6 mb-0">
+			  {{ form.extension|as_crispy_field }}
+			</div>
+		  </div>
+		  <div class="form-row">
+			<div class="form_group col-md-6 mb-0">
+			  {{ form.category|as_crispy_field }}
+			</div>
+			<div class="form_group col-md-6 mb-0">
+			  {{ form.department|as_crispy_field }}
+			</div>
+		  </div>
+		  {{ form.summary|as_crispy_field }}
+		  <div class="form-row">
+			<div class="form_group col-md-6 mb-0">
+			  {{ form.priority|as_crispy_field }}
+			</div>
+			<div class="form_group col-md-6 mb-0">
+			  {{ form.status|as_crispy_field }}
+			</div>
+		  </div>
+		  {{ form.assigned_to|as_crispy_field }}
+		  {{ form.solution|as_crispy_field }}
+
+
+
 			<div class="d-grid gap-2 col-6 mx-auto">
 			<input type="submit" value="Update" class="btn btn-primary">
 			</div>
 		</form>
 		</div>
 	 <div class="col-md-12 text-end">
-		<a class="btn btn-primary " href="/" role="button">Go Back</a>
+		<a class="btn btn-primary " href="/" role="button">Close</a>
 	 </div>
 </div>
 {% endblock %}

@@ -8,7 +8,7 @@ from django.contrib.auth.models import User
 class UserForm(ModelForm):
     class Meta:
         model = Support
-        fields = ('name', 'extension', 'department', 'summary', 'category', 'priority', 'status')
+        fields = ('name', 'extension', 'assigned_to', 'department', 'summary', 'category', 'priority', 'solution', 'status',)
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': "User's name"}),
             'extension': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'i.e 41213'}),
@@ -17,25 +17,9 @@ class UserForm(ModelForm):
             'summary': forms.Textarea(
                 attrs={'class': 'form-control', 'rows': '4', 'placeholder': 'Describe the issue'}),
             'priority': forms.Select(attrs={'class': 'form-select md3'}),
-            'status': forms.Select(attrs={'class': 'form-select md3'}),
-        }
-        # assigned_to = forms.ModelChoiceField(queryset=User.objects.all())
-
-
-
-class EditForm(ModelForm):
-    class Meta:
-        model = Support
-        fields = ('name', 'extension', 'department', 'summary', 'category', 'solution', 'priority', 'status')
-        widgets = {
-            'name': forms.TextInput(attrs={'class': 'form-control md3'}),
-            'extension': forms.NumberInput(attrs={'class': 'form-control md3'}),
-            'department': forms.TextInput(attrs={'class': 'form-control md3'}),
-            'category': forms.Select(attrs={'class': 'form-select md3'}),
-            'summary': forms.Textarea(
-                attrs={'class': 'form-control md3', 'rows': '3'}),
-            'priority': forms.Select(attrs={'class': 'form-select md3'}),
             'solution': forms.Textarea(
                 attrs={'class': 'form-control md3', 'rows': '3'}),
             'status': forms.Select(attrs={'class': 'form-select md3'}),
         }
+        assigned_to = forms.ModelMultipleChoiceField(queryset=User.objects.all(), widget=forms.CheckboxSelectMultiple(attrs={'class': 'form-check-input'}))
+

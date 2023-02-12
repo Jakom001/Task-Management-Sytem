@@ -13,7 +13,7 @@ from django.template.loader import render_to_string
 # pdf stuff
 from weasyprint import HTML
 
-from .forms import UserForm, EditForm
+from .forms import UserForm
 from .models import Support
 
 
@@ -112,6 +112,12 @@ def workshop(request):
     return render(request, 'workshop.html', context)
 
 
+def assigned_tasks(request):
+    assigned_tasks = Support.objects.filter(assigned_to=request.user)
+    context = {'assigned_tasks': assigned_tasks}
+    return render(request, 'crud/assigned_tasks.html', context)
+
+
 def index(request):
     # get Counts
     task_count = Support.objects.all().count
@@ -182,12 +188,13 @@ def Update(request, pk):
     supports = Support.objects.get(id=pk)
     if request.user == supports.owner:
         if request.method == 'POST':
-            form = EditForm(request.POST, instance=supports)
+            form = UserForm(request.POST, instance=supports)
             if form.is_valid():
                 form.save()
+                messages.success(request, 'Ticket updated successfully.')
                 return redirect('index')
         else:
-            form = EditForm(instance=supports)
+            form = UserForm(instance=supports)
         context = {
             'form': form,
         }

@@ -13,11 +13,12 @@
         <!-- Icon Cards-->
         <div class="row">
 
-     <div class="col-sm-6">    
-    <canvas id="myChart1" width="300" height="200"></canvas>
+     <div class="col-sm-6">
+      <p>Tickets by Priority</p>    
+    <canvas id="myChart1" width="200" height="100"></canvas>
             <div>
 
-  
+              
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   
   <script>
@@ -46,8 +47,9 @@
 </div>
   
 
-<div class="col-sm-6">    
-    <canvas id="myChart2" width="300" height="200"></canvas>
+<div class="col-sm-6">
+  <p>Tickets by Status</p>    
+    <canvas id="myChart2" width="200" height="100"></canvas>
             <div>
 
   
@@ -57,7 +59,7 @@
     var ctx = document.getElementById('myChart2');
   
     var myChart2 = new Chart(ctx, {
-      type: 'bar',
+      type: 'pie',
       data: {
         labels: [{% for status in status_list %} '{{ status }}', {% endfor %}],
         datasets: [{

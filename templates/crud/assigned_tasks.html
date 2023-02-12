@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% load static i18n %}
+{% block title %}assigned_tasks{% endblock %}
+{% block main %}
+
+ {% include 'crud/task_counts.html' %}
+
+
+
+<div class="jumbotron">
+    <div class="card">
+        <div class="card-body">
+            <h3 class="card-title text-center">Task Table</h3>
+            <hr>
+              <div class="row">
+                  <div class="col-md-6">
+                    <div class="dropdown">
+                      <button
+                        class="btn btn-primary dropdown-toggle"
+                        type="button"
+                        id="dropdownMenuButton"
+                        data-mdb-toggle="dropdown"
+                        aria-expanded="false"
+                      >
+                        Dropdown Task
+                      </button>
+                      <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <li><a class="dropdown-item" href="{% url 'task_pdf' %}">PDF</a></li>
+                        <li><a class="dropdown-item" href="{% url 'task_csv' %}">CSV File</a></li>
+                        <li><a class="dropdown-item" href="{% url 'task_text' %}">Text File</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                    <div class="col-md-6 text-end">
+                        <button class="btn btn-primary " data-mdb-toggle="modal" data-mdb-target="#add_task" role="button" >Add Task</button>
+                    </div>
+          </div>
+            <br>
+    <div class="table-responsive">
+    <table id="task_table" class="table table-striped " style="width:100%">
+        <thead>
+            <tr>
+                <th>
+                    <span class="custom-checkbox">
+                        <input type="checkbox" id="selectAll">
+                        <label for="selectAll"></label>
+                    </span>
+                </th>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Date</th>
+                    <th>Extension</th>
+                    <th>Department</th>
+                    <th>Summary</th>
+                    <th>Category</th>
+                    <th>Assigned_to</th>
+                    <th>Priority</th>
+                    <th>Solution</th>
+                    <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for task in assigned_tasks %}
+            <tr>
+                            <td>
+                                <span class="custom-checkbox">
+                                    <input type="checkbox" id="checkbox1" name="options[]" value="1">
+                                    <label for="checkbox1"></label>
+                                </span>
+                            </td>
+                            <td>{{ task.id }}</td>
+							 <td>{{ task.name }}</td>
+							 <td>{{ task.date_created }}</td>
+							 <td>{{ task.extension }}</td>
+							 <td>{{ task.department }}</td>
+							 <td>{{ task.summary }}</td>
+							 <td>{{ task.category }}</td>
+                             <td>{{ task.assigned_to }}</td>
+							 <td>{{ task.priority }}</td>
+							 <td>{{ task.solution }}</td>
+							 <td>{{ task.status }}</td>
+                              
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    </div>
+     </div>
+</div>
+
+
+  {% endblock %}

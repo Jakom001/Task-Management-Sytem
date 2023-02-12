@@ -1,7 +1,10 @@
 from django.utils.deprecation import MiddlewareMixin
+import re
+from django.shortcuts import redirect
 from django.urls import resolve, reverse
 from django.http import HttpResponseRedirect
 from ictproject import settings
+
 
 
 class LoginRequiredMiddleware(MiddlewareMixin):
@@ -24,3 +27,15 @@ class LoginRequiredMiddleware(MiddlewareMixin):
             if not current_route_name in settings.AUTH_EXEMPT_ROUTES:
                 return HttpResponseRedirect(reverse(settings.AUTH_LOGIN_ROUTE))
 
+class ExcludeResetTokensMiddleware:
+    def __init__(self, get_response):
+        self.get_response = get_response
+        self.pattern = re.compile(r'^/reset/\w+/\w+/$')
+
+    def __call__(self, request):
+        if not request.user.is_authenticated and self.pattern.match(request.path):
+            # Redirect to login page if user is not authenticated
+            return redirect(reverse('login'))
+        
+        response = self.get_response(request)
+        return response

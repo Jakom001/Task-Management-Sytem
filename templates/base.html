@@ -43,10 +43,13 @@
 <body>
 {% include 'navbar.html' %}
 
- {% include 'messages.html' %}
+ 
        <main style="margin-top: 58px">
   <div class="container pt-4">
+    {% include 'messages.html' %}
             {% block main %}
+
+            
             {% endblock %}
   </div>
              </main>

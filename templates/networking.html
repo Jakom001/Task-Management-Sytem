@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+{% load crispy_forms_tags %}
 {% load static %}
 {% block main %}
 
@@ -8,15 +8,36 @@
 <div class="container" style="max-width:40rem;margin:2rem auto;">
 
 
-    <div class="shadow p-4 mb-5 bg-body rounded">
+    <div class="shadow p-5 mb-8 bg-body rounded">
     <form action="" method=POST>
       {% csrf_token %}
-      <div class="form-group">
-
-         {{form.as_p}}
+      <div class="form-row">
+        <div class="form_group col-md-6 mb-0">
+          {{ form.name|as_crispy_field }}
+        </div>
+        <div class="form_group col-md-6 mb-0">
+          {{ form.extension|as_crispy_field }}
+        </div>
       </div>
-    </br>
-      <input type="submit" value="Submit" class="btn btn-primary">
+      <div class="form-row">
+        <div class="form_group col-md-6 mb-0">
+          {{ form.category|as_crispy_field }}
+        </div>
+        <div class="form_group col-md-6 mb-0">
+          {{ form.department|as_crispy_field }}
+        </div>
+      </div>
+      {{ form.summary|as_crispy_field }}
+      <div class="form-row">
+        <div class="form_group col-md-6 mb-0">
+          {{ form.priority|as_crispy_field }}
+        </div>
+        <div class="form_group col-md-6 mb-0">
+          {{ form.status|as_crispy_field }}
+        </div>
+      </div>
+      {{ form.assigned_to|as_crispy_field }}
+      <button type="submit" class="btn btn-primary"> Submit </button>
     </form>
         </div>
 </div>

@@ -13,6 +13,7 @@ urlpatterns = [
     path('task_pdf', views.task_pdf, name='task_pdf'),
     path('delete/<str:id>', views.Delete, name='delete'),
     path('update/<int:pk>', views.Update, name='update'),
+    path('assigned_tasks/', views.assigned_tasks, name='assigned_tasks'),
 
 
 ]

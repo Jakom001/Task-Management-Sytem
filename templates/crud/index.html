@@ -54,6 +54,7 @@
                     <th>Department</th>
                     <th>Summary</th>
                     <th>Category</th>
+                    <th>Assigned_to</th>
                     <th>Priority</th>
                     <th>Solution</th>
                     <th>Status</th>
@@ -78,6 +79,7 @@
 							 <td>{{ support.department }}</td>
 							 <td>{{ support.summary }}</td>
 							 <td>{{ support.category }}</td>
+               <td>{{ support.assigned_to }}</td>
 							 <td>{{ support.priority }}</td>
 							 <td>{{ support.solution }}</td>
 							 <td>{{ support.status }}</td>
@@ -115,7 +117,7 @@
             <input type="text" class="form-control" name="name" id="name" required />
           </div>
             <div class="mb-3">
-            <label for="extension" class="col-form-label">Extension:</label>
+             <label for="extension" class="col-form-label">Extension:</label>
             <input type="number" name="extension" class="form-control" id="extension" required />
           </div>
             <div class="mb-3">
@@ -141,7 +143,7 @@
             <div class="mb-3">
             <label for="priority" class="col-form-label">Priority:</label>
         <select class="form-select" name="priority" id="priority">
-                    <option value="High">High</option>
+            <option value="High">High</option>
   					<option value="Medium">Medium</option>
   					<option value="Low">Low</option>
         </select>

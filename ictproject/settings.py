@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 import os.path
 from pathlib import Path
-
+import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -37,14 +37,16 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'support.apps.SupportConfig',
     'members.apps.MembersConfig',
-    'django_tables2',
-    'django_filters',
-    "django_htmx",
+    # 'django_tables2',
+    # 'django_filters',
+    # "django_htmx",
+    'widget_tweaks',
     "crispy_forms",
     "crispy_bootstrap5",
     "bootstrap4",
 
 ]
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -55,8 +57,10 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    "django_htmx.middleware.HtmxMiddleware",
+    # "django_htmx.middleware.HtmxMiddleware",
     "ictproject.middleware.LoginRequiredMiddleware",
+    'ictproject.middleware.ExcludeResetTokensMiddleware',
+
 ]
 
 ROOT_URLCONF = 'ictproject.urls'
@@ -86,6 +90,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 
 
 WSGI_APPLICATION = 'ictproject.wsgi.application'
+
 # AUTH_USER_MODEL = 'members.AccountManager'
 
 # Database
