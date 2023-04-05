@@ -20,13 +20,13 @@
             ><span>Main dashboard</span>
         </a>
                   <!-- Collapse 1 -->
-                  <a class="list-group-item list-group-item-action py-3 ripple" aria-current="true"
+                  <!-- <a class="list-group-item list-group-item-action py-3 ripple" aria-current="true"
                     data-mdb-toggle="collapse" href="#collapseExample1" aria-expanded="true"
                     aria-controls="collapseExample1">
                       <i class="fas fa-tachometer-alt fa-fw me-3"></i><span>Task  <i class="fas fa-caret-down float-right "></i></span>
-                  </a>
+                  </a> -->
                   <!-- Collapsed content -->
-                  <ul id="collapseExample1" class="collapse  list-group list-group-flush">
+                  <!-- <ul id="collapseExample1" class="collapse  list-group list-group-flush">
                     <li class="list-group-item py-3">
                       <a href="" class="text-reset">New</a>
                     </li>
@@ -36,17 +36,17 @@
                     <li class="list-group-item py-3">
                       <a href="" class="text-reset">Review</a>
                     </li>
-                  </ul>
+                  </ul> -->
                   <!-- Collapse 1 -->
 
                   <!-- Collapse 2 -->
-                  <a class="list-group-item list-group-item-action py-2 ripple" aria-current="true"
+                  <!-- <a class="list-group-item list-group-item-action py-2 ripple" aria-current="true"
                     data-mdb-toggle="collapse" href="#collapseExample2" aria-expanded="true"
                     aria-controls="collapseExample2">
                     <i class="fas fa-chart-area fa-fw me-3 "></i><span>Add Equipment <i class="fas fa-caret-down float-right "></i></span>
-                  </a>
+                  </a> -->
                   <!-- Collapsed content -->
-                  <ul id="collapseExample2" class="collapse list-group list-group-flush">
+                  <!-- <ul id="collapseExample2" class="collapse list-group list-group-flush">
                     <li class="list-group-item py-3">
                       <a href="" class="text-reset">Switch</a>
                     </li>
@@ -59,14 +59,30 @@
                     <li class="list-group-item py-3">
                       <a href="" class="text-reset">Router</a>
                     </li>
-                  </ul>
+                  </ul> -->
                   <!-- Collapse 2 -->
+                  {% if user.is_superuser %}
+                  <a
+           href="{% url 'admin:index' %}"
+           class="list-group-item list-group-item-action py-3 ripple"
+           ><i class="fas fa-solid fa-lock fa-fw me-3"></i>
+           <span>Admin Panel</span></a
+          >
 
-        <a
-           href="#"
+          
+          {% endif %}
+                  <a
+           href="{% url 'new_task' %}"
            class="list-group-item list-group-item-action py-3 ripple"
            ><i class="fas fa-chart-line fa-fw me-3"></i
-          ><span>Reports</span></a
+          ><span>New Task</span></a
+          >
+
+        <a
+           href="{% url 'assigned_tasks' %}"
+           class="list-group-item list-group-item-action py-3 ripple"
+           ><i class="fas fa-chart-line fa-fw me-3"></i
+          ><span>My Tickets</span></a
           >
     {% if user.is_staff %}
         <a
@@ -115,7 +131,7 @@
              />
       </a>
       <!-- Search form -->
-      <a class="navbar-brand" href="/">Pacflaw Task Monitor</a>
+      <a class="navbar-brand" href="/">Task Management System</a>
 
       <!-- Right links -->
       <ul class="navbar-nav ms-auto d-flex flex-row">
@@ -139,7 +155,7 @@
              >
              <!-- src="{{ user.profile.image.url }}" -->
             <img
-                src="{% static 'images/default.png' %}"
+                src="{{ user.profile.image.url }}"
                  class="rounded-circle"
                  height="22"
                  alt=""

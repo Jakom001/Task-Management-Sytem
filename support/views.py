@@ -91,7 +91,7 @@ def task_text(request):
     return response
 
 
-def networking(request):
+def new_task(request):
     if request.method == "POST":
         form = UserForm(request.POST)
         form.instance.owner = request.user
@@ -104,7 +104,7 @@ def networking(request):
             messages.error(request, form.errors)
     else:
         form = UserForm()
-    return render(request, 'networking.html', {'form': form})
+    return render(request, 'new_task.html', {'form': form})
 
 
 def workshop(request):
@@ -138,9 +138,9 @@ def index(request):
     priority_number = [high_count, medium_count, low_count]
 
 
-    # supports = Support.objects.filter(owner=request.user).order_by('-id')
+    supports = Support.objects.filter(owner=request.user).order_by('-id')
 
-    supports = Support.objects.order_by('-id')
+    # supports = Support.objects.order_by('-id')
 
 
     # pagination set up

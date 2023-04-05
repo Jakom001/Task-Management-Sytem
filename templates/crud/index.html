@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% load static i18n %}
-{% block title %}Pacflaw Task Monitor{% endblock %}
+{% block title %}Task Management System{% endblock %}
 {% load crispy_forms_tags %}
 	{% block main %}
 
@@ -23,7 +23,7 @@
                         data-mdb-toggle="dropdown"
                         aria-expanded="false"
                       >
-                        Dropdown Task
+                        Download
                       </button>
                       <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                         <li><a class="dropdown-item" href="{% url 'task_pdf' %}">PDF</a></li>
@@ -33,11 +33,11 @@
                     </div>
                   </div>
                     <div class="col-md-6 text-end">
-                        <button class="btn btn-primary " data-mdb-toggle="modal" data-mdb-target="#add_task" role="button" >Add Task</button>
-                    </div>
+                        <a class="btn btn-primary" href="{% url 'new_task' %}">Add task</a>
+                      </div>
           </div>
             <br>
-    <div class="table-responsive">
+    <div class="table-responsive ">
     <table id="task_table" class="table table-striped " style="width:100%">
         <thead>
             <tr>
@@ -47,7 +47,7 @@
                         <label for="selectAll"></label>
                     </span>
                 </th>
-                    <th>ID</th>
+                    <th >ID</th>
                     <th>Name</th>
                     <th>Date</th>
                     <th>Extension</th>
@@ -84,13 +84,13 @@
 							 <td>{{ support.solution }}</td>
 							 <td>{{ support.status }}</td>
                                 <td>
-                                    <a href="{% url 'update' support.id %}" class="edit btn btn-info btn-sm mr-2" data-target="#modal" data-toggle="modal"><i class="fas fa-pencil-alt"></i></a>
+                                    <a href="{% url 'update' support.id %}" class="edit btn btn-info btn-sm mr-2 d-inline-block" data-target="#modal" data-toggle="modal"><i class="fas fa-pencil-alt"></i></a>
 
                                     {% if user.is_superuser %}
-                                    <a href="#delete_task-{{forloop.counter}}" class="btn btn-danger btn-sm mr-2 delete" data-mdb-toggle="modal" data-toggle="tooltip"><i class="fas fa-trash-alt"></i></a>
-
+                                    <a href="#delete_task-{{forloop.counter}}" class="btn btn-danger btn-sm mr-2 d-inline-block delete" data-mdb-toggle="modal" data-toggle="tooltip"><i class="fas fa-trash-alt"></i></a>
+                                    {% endif %}
                                 </td>
-                 {% endif %}
+                 
             </tr>
             {% endfor %}
         </tbody>
@@ -98,77 +98,6 @@
     </div>
      </div>
 </div>
-
-
-
-<!--      add modal HTML-->
-<div class="modal fade" id="add_task" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-scrollable">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Add Task</h5>
-        <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <form  action="{% url 'add_task' %}" method="post">
-               {% csrf_token %}
-          <div class="mb-3">
-            <label for="name" class="col-form-label">Name (User):</label>
-            <input type="text" class="form-control" name="name" id="name" required />
-          </div>
-            <div class="mb-3">
-             <label for="extension" class="col-form-label">Extension:</label>
-            <input type="number" name="extension" class="form-control" id="extension" required />
-          </div>
-            <div class="mb-3">
-            <label for="department" class="col-form-label">Department:</label>
-            <input type="text" name="department" class="form-control" id="department" required />
-          </div>
-            <div class="mb-3">
-            <label for="summary" class="col-form-label">Summary:</label>
-            <textarea class="form-control" name="summary" id="summary" required></textarea>
-          </div>
-
-          <div class="mb-3">
-            <label for="category" class="col-form-label">Category</label>
-        <select class="form-select" name="category" id="category">
-                     <option value="Network">Network</option>
-  					<option value="Printer">Printer</option>
-  					<option value="Computer">Computer</option>
-					<option value="Software">Software</option>
-					<option value="Data/Files">Data/Files</option>
-        </select>
-           </div>
-
-            <div class="mb-3">
-            <label for="priority" class="col-form-label">Priority:</label>
-        <select class="form-select" name="priority" id="priority">
-            <option value="High">High</option>
-  					<option value="Medium">Medium</option>
-  					<option value="Low">Low</option>
-        </select>
-           </div>
-
-             <div class="mb-3">
-            <label for="status" class="col-form-label">Status:</label>
-        <select class="form-select" name="status" id="status">
-                    <option value="New">New</option>
-  					<option value="Completed">Completed</option>
-  					<option value="Review">Review</option>
-        </select>
-           </div>
-            <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Close</button>
-        <input type="submit" class="btn btn-primary" value="Add">
-      </div>
-        </form>
-      </div>
-
-    </div>
-  </div>
-</div>
-
-<!-- edit task -->
 
 
 

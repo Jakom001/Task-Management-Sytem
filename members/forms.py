@@ -71,7 +71,6 @@ class NewUserForm(UserCreationForm):
             user.save()
         return user
 
-
 class PasswordChangingForm(PasswordChangeForm):
     old_password = forms.CharField(widget=forms.PasswordInput(attrs={
         "class": "form-control",

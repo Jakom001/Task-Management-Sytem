@@ -37,10 +37,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'support.apps.SupportConfig',
     'members.apps.MembersConfig',
-    # 'django_tables2',
-    # 'django_filters',
-    # "django_htmx",
-    'widget_tweaks',
     "crispy_forms",
     "crispy_bootstrap5",
     "bootstrap4",
@@ -209,7 +205,6 @@ AUTH_ADFS = {
 
     ],
 }
-
 
 
 

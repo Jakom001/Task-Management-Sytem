@@ -13,7 +13,7 @@ class UserForm(ModelForm):
             'name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': "User's name"}),
             'extension': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'i.e 41213'}),
             'category': forms.Select(attrs={'class': 'form-select md3'}),
-            'department': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'i.e Level 10, Nurses Desk'}),
+            'department': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'i.e Admin Block, Finance Office'}),
             'summary': forms.Textarea(
                 attrs={'class': 'form-control', 'rows': '4', 'placeholder': 'Describe the issue'}),
             'priority': forms.Select(attrs={'class': 'form-select md3'}),

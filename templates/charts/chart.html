@@ -1,94 +1,97 @@
 <div id="content-wrapper" style="padding-top: 105px">
+  <div class="container-fluid">
 
-    <div class="container-fluid">
+    <!-- Breadcrumbs-->
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a href="#">Reports</a>
+      </li>
+    </ol>
 
-        <!-- Breadcrumbs-->
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item">
-                <a href="">Dashboard</a>
-            </li>
-            <li class="breadcrumb-item active">Overview</li>
-        </ol>
+    <!-- Icon Cards-->
+    <div class="row">
 
-        <!-- Icon Cards-->
-        <div class="row">
+      <div class="col-sm-6">
+        <div class="card mb-3">
+          <div class="card-body">
+            <h5 class="card-title">Tickets by Priority</h5>
+            <canvas id="myChart1" width="400" height="300"></canvas>
+          </div>
+        </div>
+      </div>
 
-     <div class="col-sm-6">
-      <p>Tickets by Priority</p>    
-    <canvas id="myChart1" width="200" height="100"></canvas>
-            <div>
+      <div class="col-sm-6">
+        <div class="card mb-3">
+          <div class="card-body">
+            <h5 class="card-title">Tickets by Status</h5>
+            <canvas id="myChart2" width="400" height="300"></canvas>
+          </div>
+        </div>
+      </div>
 
-              
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  
-  <script>
-    var ctx = document.getElementById('myChart1').getContext('2d');
-  
-    var myChart1 = new Chart(ctx, {
-      type: 'pie',
-      data: {
-        labels: [{% for priority in priority_list %} '{{ priority }}', {% endfor %}],
-        datasets: [{
-          label: 'Priority',
-          data: [{% for number in priority_number %} '{{ number }}', {% endfor %}],
-          borderWidth: 1
-        }]
-      },
-      options: {
-        scales: {
-          y: {
-            beginAtZero: true
-          }
-        }
-      }
-    });
-  </script>
+    </div>
+
   </div>
 </div>
-  
 
-<div class="col-sm-6">
-  <p>Tickets by Status</p>    
-    <canvas id="myChart2" width="200" height="100"></canvas>
-            <div>
+<!-- Include Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
 
-  
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  
-  <script>
-    var ctx = document.getElementById('myChart2');
-  
-    var myChart2 = new Chart(ctx, {
-      type: 'pie',
-      data: {
-        labels: [{% for status in status_list %} '{{ status }}', {% endfor %}],
-        datasets: [{
-          label: 'Status',
-          data: [{% for number in status_number %} '{{ number }}', {% endfor %}],
-          borderWidth: 1
-        }]
+<!-- Include Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.js"></script>
+
+<script>
+  // Chart 1
+  var ctx1 = document.getElementById('myChart1').getContext('2d');
+  var myChart1 = new Chart(ctx1, {
+    type: 'pie',
+    data: {
+      labels: [{% for priority in priority_list %} '{{ priority }}', {% endfor %}],
+      datasets: [{
+        label: 'Priority',
+        data: [{% for number in priority_number %} '{{ number }}', {% endfor %}],
+        backgroundColor: [
+                                        'rgb(255, 99, 132)',
+                                        'rgb(54, 162, 235)',
+                                        'rgb(255, 205, 86)'
+                                    ],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: {
+          position: 'right',
+        },
       },
-      options: {
-        scales: {
-          y: {
-            beginAtZero: true
-          }
-        }
-      }
-    });
-  </script>
-  </div>
-</div> 
+    }
+  });
 
-
-</div>
-
-<br>
-<br>
-<br>
-
-
-<!-- end of static icon -->           
-        </div>
-        </div>
-        </div>
+  // Chart 2
+  var ctx2 = document.getElementById('myChart2').getContext('2d');
+  var myChart2 = new Chart(ctx2, {
+    type: 'pie',
+    data: {
+      labels: [{% for status in status_list %} '{{ status }}', {% endfor %}],
+      datasets: [{
+        label: 'Status',
+        data: [{% for number in status_number %} '{{ number }}', {% endfor %}],
+        backgroundColor: [
+                                        'rgb(255, 99, 132)',
+                                        'rgb(54, 162, 235)',
+                                        'rgb(255, 205, 86)'
+                                    ],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: {
+          position: 'right',
+        },
+      },
+    }
+  });
+</script>

@@ -25,19 +25,15 @@ urlpatterns = [
                   path('admin/', admin.site.urls, name='admin'),
                   path("", views.index, name='index'),
                   path('', include('support.urls')),
-                  # path('', include('django.contrib.auth.urls')),
                   path('', include('members.urls')),
 
 
-              ] # + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-if settings.DEBUG:
-    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+              ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
               
 
-admin.site.site_header = "Packflaw Admin"
-admin.site.site_title = "Packflaw Admin Portal"
-admin.site.index_title = "Welcome to Packflaw Support Portal"
+admin.site.site_header = "Help Desk Admin"
+admin.site.site_title = "Admin Portal"
+admin.site.index_title = "Welcome to Help Desk Portal"
 
 # handler404 = 'support.views.error_404'
 # handler500 = 'support.views.error_500'
