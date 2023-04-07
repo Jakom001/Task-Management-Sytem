@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static i18n %}
+<link href="{% static 'css/main.css' %}" rel="stylesheet">
 {% block title %}Task Management System{% endblock %}
 {% load crispy_forms_tags %}
 	{% block main %}
@@ -53,10 +54,8 @@
                     <th>Extension</th>
                     <th>Department</th>
                     <th>Summary</th>
-                    <th>Category</th>
                     <th>Assigned_to</th>
                     <th>Priority</th>
-                    <th>Solution</th>
                     <th>Status</th>
 
                     <th>Actions</th>
@@ -72,20 +71,18 @@
                                     <label for="checkbox1"></label>
                                 </span>
                             </td>
-                            <td>{{ support.id }}</td>
+              <td><a href="{% url 'detail' support.id %}">{{ support.id }}</a></td>
+              <!-- <td>{{ support.id }}</td> -->
 							 <td>{{ support.name }}</td>
 							 <td>{{ support.date_created }}</td>
 							 <td>{{ support.extension }}</td>
 							 <td>{{ support.department }}</td>
 							 <td>{{ support.summary }}</td>
-							 <td>{{ support.category }}</td>
                <td>{{ support.assigned_to }}</td>
 							 <td>{{ support.priority }}</td>
-							 <td>{{ support.solution }}</td>
 							 <td>{{ support.status }}</td>
                                 <td>
                                     <a href="{% url 'update' support.id %}" class="edit btn btn-info btn-sm mr-2 d-inline-block" data-target="#modal" data-toggle="modal"><i class="fas fa-pencil-alt"></i></a>
-
                                     {% if user.is_superuser %}
                                     <a href="#delete_task-{{forloop.counter}}" class="btn btn-danger btn-sm mr-2 d-inline-block delete" data-mdb-toggle="modal" data-toggle="tooltip"><i class="fas fa-trash-alt"></i></a>
                                     {% endif %}

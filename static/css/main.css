@@ -50,3 +50,10 @@ padding-top: 0.5rem;
 overflow-x: hidden;
 overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
 }
+
+td a {
+  display: inline-block;
+}
+
+
+

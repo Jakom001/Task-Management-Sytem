@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block title %}Task Detail{% endblock %}
+
+{% block main %}
+    <div class="container mt-5">
+        <div class="card">
+            <div class="card-body">
+                <h1 class="card-title mb-4">Task #{{ support.id }}</h1>
+                <div class="row">
+                    <div class="col-md-6">
+                        <p class="card-text"><strong>Name:</strong> {{ support.name }}</p>
+                        <p class="card-text"><strong>Date Added:</strong> {{ support.date_created }}</p>
+                        <p class="card-text"><strong>Last Modified:</strong> {{ support.date_modified }}</p>
+                        <p class="card-text"><strong>Extension:</strong> {{ support.extension }}</p>
+                        <p class="card-text"><strong>Department:</strong> {{ support.department }}</p>
+                        <p class="card-text"><strong>Category:</strong> {{ support.category }}</p>
+                        <p class="card-text"><strong>Assigned to:</strong> {{ support.assigned_to }}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <p class="card-text"><strong>Summary:</strong> {{ support.summary }}</p>
+                        <p class="card-text"><strong>Priority:</strong> {{ support.priority }}</p>
+                        <p class="card-text"><strong>Solution:</strong> {{ support.solution }}</p>
+                        <p class="card-text"><strong>Status:</strong> {{ support.status }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

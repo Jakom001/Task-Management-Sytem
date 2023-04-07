@@ -6,7 +6,7 @@ from django.contrib import messages
 from django.contrib.auth.models import User
 from django.db.models import Q, Count
 from django.http import HttpResponseRedirect, HttpResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.template.loader import render_to_string
 
 
@@ -90,6 +90,9 @@ def task_text(request):
     response.writelines(lines)
     return response
 
+def support_detail(request, id):
+    support = get_object_or_404(Support, id=id)
+    return render(request, 'crud/detail.html', {'support': support})
 
 def new_task(request):
     if request.method == "POST":
