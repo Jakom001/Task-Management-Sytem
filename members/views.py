@@ -115,6 +115,7 @@ def profile(request):
     return render(request, 'registration/profile.html', context)
 
 
+
 def profile_update(request):
     if request.method == 'POST':
         user_form = UserUpdateForm(request.POST, instance=request.user)

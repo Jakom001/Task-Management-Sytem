@@ -4,10 +4,7 @@
 {% block title %}Task Management System{% endblock %}
 {% load crispy_forms_tags %}
 	{% block main %}
-
  {% include 'crud/task_counts.html' %}
-
-
 
 <div class="jumbotron">
     <div class="card">
@@ -42,12 +39,12 @@
     <table id="task_table" class="table table-striped " style="width:100%">
         <thead>
             <tr>
-                <th>
-                    <span class="custom-checkbox">
-                        <input type="checkbox" id="selectAll">
-                        <label for="selectAll"></label>
-                    </span>
-                </th>
+              <th id="select-all">
+                <span class="custom-checkbox">
+                  <input type="checkbox" id="selectAll">
+                  <label for="selectAll"></label>
+                </span>
+              </th>
                     <th >ID</th>
                     <th>Name</th>
                     <th>Date</th>
@@ -57,9 +54,7 @@
                     <th>Assigned_to</th>
                     <th>Priority</th>
                     <th>Status</th>
-
                     <th>Actions</th>
-
             </tr>
         </thead>
         <tbody>
@@ -87,7 +82,6 @@
                                     <a href="#delete_task-{{forloop.counter}}" class="btn btn-danger btn-sm mr-2 d-inline-block delete" data-mdb-toggle="modal" data-toggle="tooltip"><i class="fas fa-trash-alt"></i></a>
                                     {% endif %}
                                 </td>
-                 
             </tr>
             {% endfor %}
         </tbody>
@@ -121,10 +115,32 @@
 {% endfor %}
 
 
+<script>
+  var selectAllCheckbox = document.getElementById('selectAll');
+  var checkboxes = document.querySelectorAll('tbody input[type="checkbox"]');
+  var selectAllTh = document.getElementById('select-all');
+
+  selectAllCheckbox.addEventListener('change', function() {
+    checkboxes.forEach(function(checkbox) {
+      checkbox.checked = selectAllCheckbox.checked;
+    });
+  });
+
+  checkboxes.forEach(function(checkbox) {
+    checkbox.addEventListener('change', function() {
+      selectAllCheckbox.checked = Array.from(checkboxes).every(function(c) {
+        return c.checked;
+      });
+    });
+  });
+
+  selectAllTh.addEventListener('click', function() {
+    selectAllCheckbox.checked = !selectAllCheckbox.checked;
+    selectAllCheckbox.dispatchEvent(new Event('change'));
+  });
+</script>
 
 {% include 'charts/chart.html' %}
-
-
 {% endblock %}
 
 
